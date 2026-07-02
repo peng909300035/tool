@@ -1,0 +1,87 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #07111f;
+  color: #f4f7fb;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #07111f, #13253d);
+}
+.app-shell {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 20px 48px;
+}
+.hero {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  font-size: 0.8rem;
+  color: #83c7ff;
+  margin-bottom: 8px;
+}
+h1 { font-size: 2rem; margin: 0 0 10px; }
+.subtext { max-width: 640px; color: #b7c4d2; line-height: 1.6; }
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 260px;
+}
+.upload-card,
+.primary-btn,
+.secondary-btn,
+.select-group {
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.08);
+  padding: 12px 14px;
+}
+.upload-card input { display: none; }
+button,
+select {
+  font: inherit;
+  border: none;
+  cursor: pointer;
+}
+.primary-btn { background: linear-gradient(135deg, #2d7cff, #4dc4ff); color: white; }
+.secondary-btn { background: #18304c; color: white; }
+.secondary-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.select-group { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+select { background: transparent; color: white; }
+.result-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.preview-card {
+  background: rgba(255,255,255,0.06);
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.preview-card canvas {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  background: #0d1724;
+  min-height: 320px;
+}
+.status {
+  margin-top: 16px;
+  color: #8fbed9;
+}
+@media (max-width: 900px) {
+  .hero { flex-direction: column; align-items: stretch; }
+  .result-grid { grid-template-columns: 1fr; }
+}

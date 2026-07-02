@@ -1,0 +1,22 @@
+{
+  "name": "一键抠图",
+  "short_name": "抠图",
+  "description": "轻量级浏览器端一键抠图工具（高精度/快速模式）",
+  "lang": "zh-CN",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#07111f",
+  "theme_color": "#13253d",
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>一键抠图</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">轻量级在线分割</p>
+          <h1>一键抠图，适合头像、商品、短视频封面</h1>
+          <p class="subtext">上传照片后，浏览器内直接运行小模型完成背景分割，支持透明背景和纯色背景输出。</p>
+        </div>
+        <div class="controls">
+          <label class="upload-card" for="imageUpload">
+            <span>📷 选择图片</span>
+            <input id="imageUpload" type="file" accept="image/*" />
+          </label>
+          <button id="segmentBtn" class="primary-btn">一键抠图</button>
+          <button id="downloadBtn" class="secondary-btn" disabled>下载 PNG</button>
+          <label class="select-group">
+            <span>背景</span>
+            <select id="backgroundMode">
+              <option value="transparent">透明背景</option>
+              <option value="solid">纯色背景</option>
+            </select>
+          </label>
+          <label class="select-group">
+            <span>精度</span>
+            <select id="accuracyMode">
+              <option value="fast">快速版</option>
+              <option value="accurate" selected>高精度版</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section class="result-grid">
+        <article class="preview-card">
+          <h2>原图</h2>
+          <canvas id="sourceCanvas"></canvas>
+        </article>
+        <article class="preview-card">
+          <h2>抠图结果</h2>
+          <canvas id="resultCanvas"></canvas>
+        </article>
+      </section>
+
+      <p id="status" class="status">请先上传一张图片，然后点击“一键抠图”。</p>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/selfie_segmentation.js"></script>
+    <script src="app.js?v=2"></script>
+  </body>
+</html>
