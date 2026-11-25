@@ -1,8 +1,10 @@
 (() => {
   "use strict";
 
-  const MODEL_DIR = "/vendor/mediapipe/";
-  const MODEL_SCRIPT = `${MODEL_DIR}selfie_segmentation.js`;
+  const VENDOR_DIR = "/vendor/tasks-vision/";
+  const BUNDLE_URL = `${VENDOR_DIR}vision_bundle.mjs`;
+  const WASM_DIR = `${VENDOR_DIR}wasm`;
+  const MODEL_URL = `${VENDOR_DIR}selfie_segmenter.tflite`;
   const MAX_SIDE = 1024;
 
   const uploadInput = document.getElementById("imageUpload");
@@ -36,31 +38,6 @@
     if (segmentBtn) segmentBtn.disabled = isLoading || !originalImage;
   }
 
-  function loadScriptOnce(src) {
-    return new Promise((resolve, reject) => {
-      const existing = document.querySelector(`script[src="${src}"]`);
-      if (existing && existing.dataset.loaded === "true") {
-        resolve();
-        return;
-      }
-      if (existing) {
-        existing.addEventListener("load", () => resolve(), { once: true });
-        existing.addEventListener("error", () => reject(new Error("Model script failed to load")), { once: true });
-        return;
-      }
-
-      const script = document.createElement("script");
-      script.src = src;
-      script.async = true;
-      script.addEventListener("load", () => {
-        script.dataset.loaded = "true";
-        resolve();
-      }, { once: true });
-      script.addEventListener("error", () => reject(new Error("Model script failed to load")), { once: true });
-      document.head.appendChild(script);
-    });
-  }
-
   async function getSegmenter() {
     if (segmenter) return segmenter;
     if (segmenterPromise) return segmenterPromise;
@@ -68,33 +45,46 @@
     segmenterPromise = (async () => {
       setLoading(true);
       setStatus("Loading local segmentation model…");
-      await loadScriptOnce(MODEL_SCRIPT);
 
-      const SelfieSegmentation = window.SelfieSegmentation;
-      if (!SelfieSegmentation) throw new Error("Segmentation model is unavailable");
+      const module = await import(/* @vite-ignore */ BUNDLE_URL);
+      const FilesetResolver = module.FilesetResolver;
+      const ImageSegmenter = module.ImageSegmenter;
+      if (!FilesetResolver || !ImageSegmenter) {
+        throw new Error("Segmentation model is unavailable");
+      }
 
-      segmenter = new SelfieSegmentation({
-        locateFile: (file) => `${MODEL_DIR}${file}`,
-      });
+      const vision = await FilesetResolver.forVisionTasks(WASM_DIR);
+      const options = {
+        baseOptions: {
+          modelAssetPath: MODEL_URL,
+          delegate: "GPU",
+        },
+        runningMode: "IMAGE",
+        outputCategoryMask: true,
+        outputConfidenceMasks: false,
+      };
 
-      segmenter.onResults(renderResult);
+      try {
+        segmenter = await ImageSegmenter.createFromOptions(vision, options);
+      } catch (gpuError) {
+        options.baseOptions.delegate = "CPU";
+        segmenter = await ImageSegmenter.createFromOptions(vision, options);
+      }
+
       return segmenter;
     })();
 
     try {
       return await segmenterPromise;
+    } catch (error) {
+      segmenterPromise = null;
+      throw error;
     } finally {
       segmenterPromise = null;
     }
   }
 
-  function configureSegmenter() {
-    if (!segmenter) return;
-    const modelSelection = accuracyMode && accuracyMode.value === "fast" ? 1 : 0;
-    segmenter.setOptions({ modelSelection });
-  }
-
-  function renderResult(results) {
+  function renderResult(mask) {
     const width = resultCanvas.width;
     const height = resultCanvas.height;
     if (!width || !height) return;
@@ -104,27 +94,26 @@
     const sourceData = sourceCtx.getImageData(0, 0, width, height);
     const resultData = ctx.createImageData(width, height);
 
-    if (results.segmentationMask) {
-      const maskCanvas = document.createElement("canvas");
-      maskCanvas.width = width;
-      maskCanvas.height = height;
-      const maskCtx = maskCanvas.getContext("2d", { willReadFrequently: true });
-      maskCtx.drawImage(results.segmentationMask, 0, 0, width, height);
-      const maskData = maskCtx.getImageData(0, 0, width, height);
+    if (mask) {
+      const maskWidth = mask.width;
+      const maskHeight = mask.height;
+      const maskData = mask.getAsUint8Array();
 
-      for (let i = 0; i < sourceData.data.length; i += 4) {
-        resultData.data[i] = sourceData.data[i];
-        resultData.data[i + 1] = sourceData.data[i + 1];
-        resultData.data[i + 2] = sourceData.data[i + 2];
+      for (let y = 0; y < height; y += 1) {
+        const my = Math.min(maskHeight - 1, Math.floor((y / height) * maskHeight));
+        for (let x = 0; x < width; x += 1) {
+          const mx = Math.min(maskWidth - 1, Math.floor((x / width) * maskWidth));
+          const srcIndex = (y * width + x) * 4;
+          const maskValue = maskData[my * maskWidth + mx];
 
-        const maskValue = maskData.data[i];
-        if (accuracyMode && accuracyMode.value === "fast") {
-          resultData.data[i + 3] = maskValue > 128 ? 255 : 0;
-        } else {
-          resultData.data[i + 3] = Math.round((maskValue / 255) * 255);
+          resultData.data[srcIndex] = sourceData.data[srcIndex];
+          resultData.data[srcIndex + 1] = sourceData.data[srcIndex + 1];
+          resultData.data[srcIndex + 2] = sourceData.data[srcIndex + 2];
+          resultData.data[srcIndex + 3] = maskValue > 0 ? 255 : 0;
         }
       }
       ctx.putImageData(resultData, 0, 0);
+      mask.close();
     } else {
       ctx.clearRect(0, 0, width, height);
       ctx.drawImage(sourceCanvas, 0, 0, width, height);
@@ -250,9 +239,16 @@
 
       try {
         const model = await getSegmenter();
-        configureSegmenter();
         setStatus("Processing in your browser…");
-        await model.send({ image: sourceCanvas });
+        model.segment(sourceCanvas, (result) => {
+          const mask = result.categoryMask;
+          if (mask) {
+            renderResult(mask);
+          } else {
+            setLoading(false);
+            setStatus("No subject mask was produced. Try a clearer portrait.");
+          }
+        });
       } catch (error) {
         setLoading(false);
         setStatus(`Processing failed: ${error.message || "Please try another image."}`);

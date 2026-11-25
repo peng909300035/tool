@@ -1,18 +1,14 @@
-const CACHE_NAME = "toolorial-cache-v3";
+const CACHE_NAME = "toolorial-cache-v4";
 
 const CORE_ASSETS = [
   "/",
   "/styles.css",
   "/app.js",
   "/manifest.json",
-  "/vendor/mediapipe/selfie_segmentation.js",
-  "/vendor/mediapipe/selfie_segmentation.binarypb",
-  "/vendor/mediapipe/selfie_segmentation.tflite",
-  "/vendor/mediapipe/selfie_segmentation_landscape.tflite",
-  "/vendor/mediapipe/selfie_segmentation_solution_simd_wasm_bin.js",
-  "/vendor/mediapipe/selfie_segmentation_solution_simd_wasm_bin.wasm",
-  "/vendor/mediapipe/selfie_segmentation_solution_wasm_bin.js",
-  "/vendor/mediapipe/selfie_segmentation_solution_wasm_bin.wasm",
+  "/vendor/tasks-vision/vision_bundle.mjs",
+  "/vendor/tasks-vision/selfie_segmenter.tflite",
+  "/vendor/tasks-vision/wasm/vision_wasm_internal.js",
+  "/vendor/tasks-vision/wasm/vision_wasm_internal.wasm",
 ];
 
 self.addEventListener("install", (event) => {

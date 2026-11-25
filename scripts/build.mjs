@@ -137,20 +137,16 @@ async function main() {
   await copyDir(dist, root);
 
   const requiredVendor = [
-    "selfie_segmentation.js",
-    "selfie_segmentation.binarypb",
-    "selfie_segmentation.tflite",
-    "selfie_segmentation_landscape.tflite",
-    "selfie_segmentation_solution_simd_wasm_bin.js",
-    "selfie_segmentation_solution_simd_wasm_bin.wasm",
-    "selfie_segmentation_solution_wasm_bin.js",
-    "selfie_segmentation_solution_wasm_bin.wasm",
+    "vendor/tasks-vision/vision_bundle.mjs",
+    "vendor/tasks-vision/selfie_segmenter.tflite",
+    "vendor/tasks-vision/wasm/vision_wasm_internal.js",
+    "vendor/tasks-vision/wasm/vision_wasm_internal.wasm",
   ];
 
   const missing = [];
   for (const file of requiredVendor) {
     try {
-      await fs.access(path.join(dist, "vendor", "mediapipe", file));
+      await fs.access(path.join(dist, file));
     } catch {
       missing.push(file);
     }
