@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Free AI Background Remover Online | Private, In-Browser | Toolorial</title>
+  <meta name="description" content="Remove portrait backgrounds in your browser with a small local AI model. No upload, no sign-up, transparent PNG export.">
+  <meta name="theme-color" content="#f6f8fc">
+  <link rel="canonical" href="https://api.tooloralab.xyz/remove-background/">
+  
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Toolorial">
+  <meta property="og:title" content="Free AI Background Remover Online | Private, In-Browser | Toolorial">
+  <meta property="og:description" content="Remove portrait backgrounds in your browser with a small local AI model. No upload, no sign-up, transparent PNG export.">
+  <meta property="og:url" content="https://api.tooloralab.xyz/remove-background/">
+  <meta property="og:image" content="https://api.tooloralab.xyz/assets/og-cover.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Free AI Background Remover Online | Private, In-Browser | Toolorial">
+  <meta name="twitter:description" content="Remove portrait backgrounds in your browser with a small local AI model. No upload, no sign-up, transparent PNG export.">
+  <meta name="twitter:image" content="https://api.tooloralab.xyz/assets/og-cover.svg">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Toolorial AI Background Remover","applicationCategory":"MultimediaApplication","operatingSystem":"Web browser","url":"https://api.tooloralab.xyz/remove-background/","description":"Browser-native portrait background remover. Images are processed locally and exported as transparent PNG files.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does the background remover work?","acceptedAnswer":{"@type":"Answer","text":"The page downloads a small segmentation model to your browser. When you choose a photo, the model draws a subject mask locally and the page applies that mask with Canvas. Your photo is never uploaded to our server."}},{"@type":"Question","name":"Do I need an account?","acceptedAnswer":{"@type":"Answer","text":"No. There is no sign-up, no login, and no upload queue. Choose an image and start processing immediately."}},{"@type":"Question","name":"Does it work offline?","acceptedAnswer":{"@type":"Answer","text":"After the page, script, and model files have been cached by your browser, the core editing flow can continue without a network connection. Clearing site data removes that cache."}},{"@type":"Question","name":"Which images work best?","acceptedAnswer":{"@type":"Answer","text":"Clear portraits, avatars, ID-style photos, and profile pictures work best. The current model is trained primarily for people, so complex product scenes or multiple distant objects may need manual cleanup."}},{"@type":"Question","name":"What formats can I download?","acceptedAnswer":{"@type":"Answer","text":"The result is exported as a PNG. Choose transparent background for an alpha channel, or solid background to flatten the result onto a color of your choice."}},{"@type":"Question","name":"Is there a file size limit?","acceptedAnswer":{"@type":"Answer","text":"There is no server upload limit. For smooth performance, use images below 15 MB. Large images are resized in the browser before segmentation to keep memory use reasonable."}},{"@type":"Question","name":"Is Toolorial free?","acceptedAnswer":{"@type":"Answer","text":"Yes. The browser-based tools are free to use. Advertising may be shown on content pages to support hosting and maintenance."}},{"@type":"Question","name":"Are my photos stored anywhere?","acceptedAnswer":{"@type":"Answer","text":"No. Photos are read from your device into browser memory, processed locally, and exported back to your device. We do not write them to a database, object storage, or analytics system."}},{"@type":"Question","name":"Why is a model downloaded on first use?","acceptedAnswer":{"@type":"Answer","text":"The segmentation model runs in your browser rather than on a server. It is downloaded once and can be cached for later visits."}},{"@type":"Question","name":"Does advertising read my photos?","acceptedAnswer":{"@type":"Answer","text":"No. Ad scripts can set cookies or read standard browser signals for ad delivery, but they do not receive the pixels of images you process in this tool."}},{"@type":"Question","name":"Can I use the result commercially?","acceptedAnswer":{"@type":"Answer","text":"You are responsible for the rights to the source image and for the final use of the exported file. Please review our Terms before publishing results."}}]}</script>
+</head>
+<body class="">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/">Toolorial<span class="brand-dot"></span></a>
+      <nav aria-label="Main"><a href="/remove-background/" class="nav-cta">Remove BG</a><a href="/docs/">Docs</a><a href="/blog/">Blog</a><a href="/faq/">FAQ</a><a href="/about/">About</a></nav>
+    </div>
+  </header>
+  <main id="main">
+
+    <section class="page-hero compact">
+      <p class="eyebrow">Free · Private · No watermark</p>
+      <h1>AI Background Remover</h1>
+      <p class="lead">Remove a portrait background in your browser. Your photo is never uploaded, and the result is exported as a PNG on your device.</p>
+    </section>
+
+    <section class="tool-layout">
+      <div class="tool-panel">
+        <div id="dropZone" class="drop-zone" tabindex="0" role="button" aria-label="Choose or drop an image">
+          <strong>Drop a portrait here</strong>
+          <span>or click to choose a JPG, PNG, or WebP file</span>
+          <input id="imageUpload" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+        </div>
+
+        <div class="control-row">
+          <label class="field"><span>Background</span>
+            <select id="backgroundMode">
+              <option value="transparent">Transparent</option>
+              <option value="solid">Solid color</option>
+            </select>
+          </label>
+          <label class="field"><span>Color</span>
+            <input id="backgroundColor" type="color" value="#2563eb">
+          </label>
+          <label class="field"><span>Mode</span>
+            <select id="accuracyMode">
+              <option value="fast">Fast</option>
+              <option value="accurate" selected>High accuracy</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="button-row">
+          <button id="segmentBtn" class="btn primary" type="button" disabled>Remove background</button>
+          <button id="downloadBtn" class="btn ghost" type="button" disabled>Download PNG</button>
+          <button id="clearBtn" class="btn text" type="button">Clear</button>
+        </div>
+
+        <p id="status" class="status" role="status" aria-live="polite">Choose a portrait to start. Processing happens in this browser.</p>
+        <div id="loader" class="loader" hidden><span></span> Loading local model…</div>
+      </div>
+
+      <div class="preview-grid">
+        <article class="preview-card">
+          <h2>Original</h2>
+          <div class="canvas-frame"><canvas id="sourceCanvas" aria-label="Original image preview"></canvas></div>
+        </article>
+        <article class="preview-card">
+          <h2>Result</h2>
+          <div class="canvas-frame checker"><canvas id="resultCanvas" aria-label="Background removal result"></canvas></div>
+        </article>
+      </div>
+    </section>
+
+    <noscript><p class="notice">JavaScript is required for the local segmentation model.</p></noscript>
+
+    <aside class="ad-slot" data-slot="tool-after-editor" aria-label="Advertisement"><span>Advertisement</span></aside>
+
+    <section class="section">
+      <div class="section-heading"><p class="section-index">How it works</p><h2>Three steps, no upload</h2></div>
+      <div class="steps horizontal">
+        <div><strong>01</strong><h3>Choose a photo</h3><p>The browser reads the selected file into memory.</p></div>
+        <div><strong>02</strong><h3>Local segmentation</h3><p>A small model creates a subject mask on your device.</p></div>
+        <div><strong>03</strong><h3>Export PNG</h3><p>Download a transparent cutout or a solid-color version.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading"><p class="section-index">FAQ</p><h2>Background remover questions</h2></div>
+      <div class="faq-list">
+        <details class="faq-item" open>
+          <summary>How does the background remover work?</summary>
+          <p>The page downloads a small segmentation model to your browser. When you choose a photo, the model draws a subject mask locally and the page applies that mask with Canvas. Your photo is never uploaded to our server.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Do I need an account?</summary>
+          <p>No. There is no sign-up, no login, and no upload queue. Choose an image and start processing immediately.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does it work offline?</summary>
+          <p>After the page, script, and model files have been cached by your browser, the core editing flow can continue without a network connection. Clearing site data removes that cache.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Which images work best?</summary>
+          <p>Clear portraits, avatars, ID-style photos, and profile pictures work best. The current model is trained primarily for people, so complex product scenes or multiple distant objects may need manual cleanup.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What formats can I download?</summary>
+          <p>The result is exported as a PNG. Choose transparent background for an alpha channel, or solid background to flatten the result onto a color of your choice.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is there a file size limit?</summary>
+          <p>There is no server upload limit. For smooth performance, use images below 15 MB. Large images are resized in the browser before segmentation to keep memory use reasonable.</p>
+        </details></div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading"><p class="section-index">Related guides</p><h2>Learn more</h2></div>
+      <div class="card-grid">
+        <article class="card post-card">
+          <p class="card-meta">Privacy · 2026-11-20</p>
+          <h3><a href="/blog/remove-background-without-uploading/">How to remove an image background without uploading it</a></h3>
+          <p>A practical guide to browser-based background removal: what runs locally, what still leaves the device, and how to get a clean transparent PNG.</p>
+        </article>
+        <article class="card post-card">
+          <p class="card-meta">AI · 2026-11-18</p>
+          <h3><a href="/blog/browser-ai-vs-cloud-ai-image-editing/">Browser AI vs cloud AI for image editing</a></h3>
+          <p>Compare latency, privacy, cost, and output quality when choosing between local browser models and cloud inference.</p>
+        </article>
+        <article class="card post-card">
+          <p class="card-meta">How-to · 2026-11-15</p>
+          <h3><a href="/blog/transparent-png-for-profile-photos/">Create a transparent PNG for profile photos</a></h3>
+          <p>How to export a clean cutout, choose the right canvas size, and avoid halos around hair and shoulders.</p>
+        </article></div>
+    </section>
+  
+  </main>
+  
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          <a class="brand" href="/">Toolorial</a>
+          <p>Private, browser-native image tools.</p>
+        </div>
+        <nav aria-label="Footer">
+          <a href="/remove-background/">Remove BG</a>
+          <a href="/docs/">Docs</a>
+          <a href="/blog/">Blog</a>
+          <a href="/faq/">FAQ</a>
+          <a href="/about/">About</a>
+          <a href="/contact/">Contact</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="/terms/">Terms</a>
+        </nav>
+      </div>
+      <p class="footer-note">Images are processed in your browser. Advertising may use cookies on content pages.</p>
+    </footer>
+  
+  <script src="/app.js" defer></script>
+</body>
+</html>

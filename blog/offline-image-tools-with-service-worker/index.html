@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How service workers make image tools available offline | Toolorial</title>
+  <meta name="description" content="A plain-language look at caching app shells, model files, and the limits of offline browser tools.">
+  <meta name="theme-color" content="#f6f8fc">
+  <link rel="canonical" href="https://api.tooloralab.xyz/blog/offline-image-tools-with-service-worker/">
+  
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Toolorial">
+  <meta property="og:title" content="How service workers make image tools available offline | Toolorial">
+  <meta property="og:description" content="A plain-language look at caching app shells, model files, and the limits of offline browser tools.">
+  <meta property="og:url" content="https://api.tooloralab.xyz/blog/offline-image-tools-with-service-worker/">
+  <meta property="og:image" content="https://api.tooloralab.xyz/assets/og-cover.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How service workers make image tools available offline | Toolorial">
+  <meta name="twitter:description" content="A plain-language look at caching app shells, model files, and the limits of offline browser tools.">
+  <meta name="twitter:image" content="https://api.tooloralab.xyz/assets/og-cover.svg">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How service workers make image tools available offline","description":"A plain-language look at caching app shells, model files, and the limits of offline browser tools.","datePublished":"2026-10-22","dateModified":"2026-10-22","inLanguage":"en","author":{"@type":"Organization","name":"Toolorial"},"publisher":{"@type":"Organization","name":"Toolorial"},"mainEntityOfPage":"https://api.tooloralab.xyz/blog/offline-image-tools-with-service-worker/"}</script>
+</head>
+<body class="">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/">Toolorial<span class="brand-dot"></span></a>
+      <nav aria-label="Main"><a href="/remove-background/" class="nav-cta">Remove BG</a><a href="/docs/">Docs</a><a href="/blog/">Blog</a><a href="/faq/">FAQ</a><a href="/about/">About</a></nav>
+    </div>
+  </header>
+  <main id="main">
+
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/blog/">Blog</a><span aria-hidden="true">/</span><a href="/blog/offline-image-tools-with-service-worker/">How service workers make image tools available offline</a></nav>
+    <article class="article">
+      <header class="article-header">
+        <p class="card-meta">Engineering · <time datetime="2026-10-22">2026-10-22</time></p>
+        <h1>How service workers make image tools available offline</h1>
+        <p class="lead">A plain-language look at caching app shells, model files, and the limits of offline browser tools.</p>
+      </header>
+      <aside class="ad-slot" data-slot="article-top" aria-label="Advertisement"><span>Advertisement</span></aside>
+      <div class="prose article-body">
+      <p>A service worker is a script that runs in the background of a web page. It can intercept network requests and serve cached files when you are offline.</p>
+      <h2 id="shell">App shell caching</h2>
+      <p>The HTML, CSS, and JavaScript that make up the interface can be cached during installation. After that, the page can open even without a connection.</p>
+      <h2 id="models">Model caching</h2>
+      <p>AI models are static files too. Caching them is what makes local inference practical after the first visit. The model is downloaded once, not on every edit.</p>
+      <h2 id="limits">Limits</h2>
+      <p>Offline support does not remove browser storage limits, and clearing site data removes the cache. Ad scripts and external resources may also fail while offline.</p>
+      <h2 id="privacy">Do not cache user images</h2>
+      <p>A privacy-first tool should cache only public static assets. Photos selected by the user belong in memory, not in the Cache API or IndexedDB.</p>
+    </div>
+      <aside class="ad-slot" data-slot="article-mid" aria-label="Advertisement"><span>Advertisement</span></aside>
+      <div class="article-cta">
+        <h2>Try it yourself</h2>
+        <p>Remove a portrait background locally and export a transparent PNG.</p>
+        <a class="btn primary" href="/remove-background/">Open the remover</a>
+      </div>
+    </article>
+    <section class="section">
+      <div class="section-heading"><p class="section-index">Keep reading</p><h2>Related guides</h2></div>
+      <div class="card-grid">
+        <article class="card post-card">
+          <p class="card-meta">Privacy · 2026-11-20</p>
+          <h3><a href="/blog/remove-background-without-uploading/">How to remove an image background without uploading it</a></h3>
+          <p>A practical guide to browser-based background removal: what runs locally, what still leaves the device, and how to get a clean transparent PNG.</p>
+        </article>
+        <article class="card post-card">
+          <p class="card-meta">AI · 2026-11-18</p>
+          <h3><a href="/blog/browser-ai-vs-cloud-ai-image-editing/">Browser AI vs cloud AI for image editing</a></h3>
+          <p>Compare latency, privacy, cost, and output quality when choosing between local browser models and cloud inference.</p>
+        </article>
+        <article class="card post-card">
+          <p class="card-meta">How-to · 2026-11-15</p>
+          <h3><a href="/blog/transparent-png-for-profile-photos/">Create a transparent PNG for profile photos</a></h3>
+          <p>How to export a clean cutout, choose the right canvas size, and avoid halos around hair and shoulders.</p>
+        </article></div>
+    </section>
+  
+  </main>
+  
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          <a class="brand" href="/">Toolorial</a>
+          <p>Private, browser-native image tools.</p>
+        </div>
+        <nav aria-label="Footer">
+          <a href="/remove-background/">Remove BG</a>
+          <a href="/docs/">Docs</a>
+          <a href="/blog/">Blog</a>
+          <a href="/faq/">FAQ</a>
+          <a href="/about/">About</a>
+          <a href="/contact/">Contact</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="/terms/">Terms</a>
+        </nav>
+      </div>
+      <p class="footer-note">Images are processed in your browser. Advertising may use cookies on content pages.</p>
+    </footer>
+  
+  <script src="/app.js" defer></script>
+</body>
+</html>

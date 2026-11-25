@@ -1,0 +1,19 @@
+{
+  "name": "Toolorial — Private Background Remover",
+  "short_name": "Toolorial",
+  "description": "Browser-native portrait background remover. No uploads, no sign-up, transparent PNG export.",
+  "lang": "en",
+  "start_url": "/remove-background/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f6f8fc",
+  "theme_color": "#2563eb",
+  "icons": [
+    {
+      "src": "/assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
