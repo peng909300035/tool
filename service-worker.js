@@ -1,4 +1,4 @@
-const CACHE_NAME = "toolorial-cache-v2";
+const CACHE_NAME = "toolorial-cache-v3";
 
 const CORE_ASSETS = [
   "/",
@@ -6,6 +6,7 @@ const CORE_ASSETS = [
   "/app.js",
   "/manifest.json",
   "/vendor/mediapipe/selfie_segmentation.js",
+  "/vendor/mediapipe/selfie_segmentation.binarypb",
   "/vendor/mediapipe/selfie_segmentation.tflite",
   "/vendor/mediapipe/selfie_segmentation_landscape.tflite",
   "/vendor/mediapipe/selfie_segmentation_solution_simd_wasm_bin.js",

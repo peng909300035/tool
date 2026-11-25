@@ -138,6 +138,7 @@ async function main() {
 
   const requiredVendor = [
     "selfie_segmentation.js",
+    "selfie_segmentation.binarypb",
     "selfie_segmentation.tflite",
     "selfie_segmentation_landscape.tflite",
     "selfie_segmentation_solution_simd_wasm_bin.js",
