@@ -3,7 +3,7 @@ main = "src/worker/worker.js"
 compatibility_date = "2026-11-25"
 
 [assets]
-directory = "./dist"
+directory = "."
 binding = "ASSETS"
 not_found_handling = "404-page"
 html_handling = "auto-trailing-slash"

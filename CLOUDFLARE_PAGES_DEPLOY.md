@@ -4,20 +4,42 @@
 
 **二选一，不要同时开两套自动部署：**
 
-- 方案 A：Cloudflare Workers 的 Git 集成（你现在已经连着 GitHub，推荐继续用这个）
-- 方案 B：GitHub Actions（本仓库也准备了工作流，但需要配置 Secrets）
+- 方案 A：Cloudflare Workers 的 Git 集成（你现在用的就是这个，推荐）
+- 方案 B：GitHub Actions（备选，需要配置 Secrets）
 
-如果你继续用 Cloudflare 的 Git 集成，就在 Cloudflare Worker 的 Build settings 里配置：
+## 当前最简方案：直接部署，不需要构建命令
+
+`wrangler.toml` 里的 `assets.directory` 已改为 `.`，直接部署项目根目录。项目根目录已经包含完整的静态站镜像（HTML、图片、模型、子页面），并且都已提交到 GitHub。
+
+因此 Cloudflare Workers Builds 里：
 
 ```txt
-Build command: node scripts/build.mjs
-Build output directory: dist
+Build command: 留空
+Deploy command: npx wrangler deploy
 Root directory: /
 ```
 
-然后正常 push 即可，不需要 GitHub Actions Secrets。
+根目录的 `.assetsignore` 会排除 `.git/`、`.workbuddy/`、`.idea/`、`.github/`、`src/`、`scripts/`、`dist/`、`wrangler.toml`、`package.json` 等文件，只发布站点资源。
 
-如果使用 GitHub Actions，则关掉 Cloudflare Git 集成的自动部署，按下面第 1、2 节配置 Secrets。
+这样改完代码 → push → Cloudflare 自动部署，不需要任何额外配置。
+
+注意：如果你改的是 `src/site/content.mjs` 里的域名/文案，需要先本地跑一次 `node scripts/build.mjs` 重新生成根目录镜像，再提交。直接改根目录的 HTML 则无需构建。
+
+## 备选：启用构建命令
+
+如果希望在 Cloudflare 上构建，可以在 Build settings 里配：
+
+```txt
+Build command: node scripts/build.mjs
+Deploy command: npx wrangler deploy
+Root directory: /
+```
+
+但当前 `assets.directory = "."` 已经够用，不需要这一步。
+
+## GitHub Actions（备选）
+
+如果使用 GitHub Actions，先关掉 Cloudflare Git 集成的自动部署，再按下面第 1、2 节配置 Secrets。
 
 ## 1. GitHub 自动部署（备选）
 
@@ -101,11 +123,13 @@ name = "toolorial-cutout"
 main = "src/worker/worker.js"
 
 [assets]
-directory = "./dist"
+directory = "."
 binding = "ASSETS"
 not_found_handling = "404-page"
 html_handling = "auto-trailing-slash"
 ```
+
+根目录下有 `.assetsignore` 控制哪些文件不会被当作静态资源上传。
 
 ## 6. 绑定域名
 

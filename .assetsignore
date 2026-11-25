@@ -1,0 +1,14 @@
+.git/
+.workbuddy/
+.idea/
+.github/
+src/
+scripts/
+dist/
+public/
+node_modules/
+wrangler.toml
+package.json
+.gitignore
+CLOUDFLARE_PAGES_DEPLOY.md
+*.log
