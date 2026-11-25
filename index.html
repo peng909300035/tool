@@ -1,58 +1,184 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>一键抠图</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <main class="app-shell">
-      <section class="hero">
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Toolorial — Private Browser Image Tools</title>
+  <meta name="description" content="Private, browser-native image tools. Remove photo backgrounds locally without uploads, accounts, or server storage.">
+  <meta name="theme-color" content="#f6f8fc">
+  <link rel="canonical" href="https://toolorial.xyz/">
+  <link rel="alternate" hreflang="en" href="https://toolorial.xyz/">
+    <link rel="alternate" hreflang="zh-Hans" href="https://toolorial.xyz/zh/">
+    <link rel="alternate" hreflang="x-default" href="https://toolorial.xyz/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Toolorial">
+  <meta property="og:title" content="Toolorial — Private Browser Image Tools">
+  <meta property="og:description" content="Private, browser-native image tools. Remove photo backgrounds locally without uploads, accounts, or server storage.">
+  <meta property="og:url" content="https://toolorial.xyz/">
+  <meta property="og:image" content="https://toolorial.xyz/assets/og-cover.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Toolorial — Private Browser Image Tools">
+  <meta name="twitter:description" content="Private, browser-native image tools. Remove photo backgrounds locally without uploads, accounts, or server storage.">
+  <meta name="twitter:image" content="https://toolorial.xyz/assets/og-cover.svg">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Toolorial","url":"https://toolorial.xyz","description":"Private, browser-native image tools. Remove photo backgrounds locally without uploads, accounts, or server storage.","inLanguage":"en"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Toolorial AI Background Remover","applicationCategory":"MultimediaApplication","operatingSystem":"Web browser","url":"https://toolorial.xyz/remove-background/","description":"Browser-native portrait background remover. Images are processed locally and exported as transparent PNG files.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+</head>
+<body class="">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/">Toolorial<span class="brand-dot"></span></a>
+      <nav aria-label="Main"><a href="/remove-background/" class="nav-cta">Remove BG</a><a href="/docs/">Docs</a><a href="/blog/">Blog</a><a href="/faq/">FAQ</a><a href="/about/">About</a></nav>
+    </div>
+  </header>
+  <main id="main">
+
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Creative studio · Private by design</p>
+        <h1>Remove backgrounds without uploading a single photo.</h1>
+        <p class="lead">Toolorial runs a small AI model inside your browser. Pick a portrait, clean the background, and export a transparent PNG. No account, no upload step, no server-side image storage.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="/remove-background/">Try the remover</a>
+          <a class="btn ghost" href="/docs/how-it-works/">How it works</a>
+        </div>
+        <ul class="trust-list">
+          <li>Local processing</li>
+          <li>No sign-up</li>
+          <li>PNG export</li>
+        </ul>
+      </div>
+      <div class="hero-visual">
+        <div class="compare-card">
+          <div class="compare-side">
+            <span>Original</span>
+            <img src="/assets/sample-portrait.svg" width="420" height="420" alt="Illustrated portrait on a blue background">
+          </div>
+          <div class="compare-side checker">
+            <span>Transparent PNG</span>
+            <img src="/assets/sample-cutout.svg" width="420" height="420" alt="Portrait cutout with checkerboard background">
+          </div>
+        </div>
+        <p class="visual-caption">Your image is drawn on a canvas, masked in the browser, and exported back to your device.</p>
+      </div>
+    </section>
+
+    <aside class="ad-slot" data-slot="home-top" aria-label="Advertisement"><span>Advertisement</span></aside>
+
+    <section class="section" id="features">
+      <div class="section-heading">
+        <p class="section-index">01 / Privacy</p>
+        <h2>Your photos stay on your device</h2>
+        <p>The editing flow reads your file in the browser. We do not operate an upload endpoint or an image database.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="card">
+          <h3>No upload step</h3>
+          <p>Select a file and the browser starts working. There is no queue and no remote copy of your photo.</p>
+        </article>
+        <article class="card">
+          <h3>No account gate</h3>
+          <p>One-off image tasks should not require a password. Open the page and edit immediately.</p>
+        </article>
+        <article class="card">
+          <h3>Reusable output</h3>
+          <p>Export a transparent PNG master, then place the subject on any color or layout you need.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section split">
+      <div>
+        <p class="section-index">02 / Speed</p>
+        <h2>Small model, fast start</h2>
+        <p>The segmentation model is cached by your browser after first use. The page loads quickly because the model is only requested when you start an edit.</p>
+      </div>
+      <div class="steps">
+        <div><strong>1</strong><span>Choose a portrait</span></div>
+        <div><strong>2</strong><span>Mask locally</span></div>
+        <div><strong>3</strong><span>Download PNG</span></div>
+      </div>
+    </section>
+
+    <section class="section tool-cta">
+      <div>
+        <p class="section-index">03 / AI background remover</p>
+        <h2>Clean cutouts for portraits and avatars</h2>
+        <p>Best for profile photos, ID-style portraits, and headshots. High accuracy mode keeps soft edges and produces an alpha channel.</p>
+      </div>
+      <a class="btn primary" href="/remove-background/">Open the tool</a>
+    </section>
+
+    <section class="section">
+      <div class="section-heading">
+        <p class="section-index">FAQ</p>
+        <h2>Frequently asked questions</h2>
+      </div>
+      <div class="faq-list">
+        <details class="faq-item" open>
+          <summary>How does the background remover work?</summary>
+          <p>The page downloads a small segmentation model to your browser. When you choose a photo, the model draws a subject mask locally and the page applies that mask with Canvas. Your photo is never uploaded to our server.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Do I need an account?</summary>
+          <p>No. There is no sign-up, no login, and no upload queue. Choose an image and start processing immediately.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does it work offline?</summary>
+          <p>After the page, script, and model files have been cached by your browser, the core editing flow can continue without a network connection. Clearing site data removes that cache.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Which images work best?</summary>
+          <p>Clear portraits, avatars, ID-style photos, and profile pictures work best. The current model is trained primarily for people, so complex product scenes or multiple distant objects may need manual cleanup.</p>
+        </details></div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading"><p class="section-index">From the blog</p><h2>Guides for private image editing</h2></div>
+      <div class="card-grid">
+        <article class="card post-card">
+          <p class="card-meta">Privacy · 2026-11-20</p>
+          <h3><a href="/blog/remove-background-without-uploading/">How to remove an image background without uploading it</a></h3>
+          <p>A practical guide to browser-based background removal: what runs locally, what still leaves the device, and how to get a clean transparent PNG.</p>
+        </article>
+        <article class="card post-card">
+          <p class="card-meta">AI · 2026-11-18</p>
+          <h3><a href="/blog/browser-ai-vs-cloud-ai-image-editing/">Browser AI vs cloud AI for image editing</a></h3>
+          <p>Compare latency, privacy, cost, and output quality when choosing between local browser models and cloud inference.</p>
+        </article>
+        <article class="card post-card">
+          <p class="card-meta">How-to · 2026-11-15</p>
+          <h3><a href="/blog/transparent-png-for-profile-photos/">Create a transparent PNG for profile photos</a></h3>
+          <p>How to export a clean cutout, choose the right canvas size, and avoid halos around hair and shoulders.</p>
+        </article></div>
+      <p><a class="text-link" href="/blog/">Read all guides</a></p>
+    </section>
+  
+  </main>
+  
+    <footer class="site-footer">
+      <div class="footer-inner">
         <div>
-          <p class="eyebrow">轻量级在线分割</p>
-          <h1>一键抠图，适合头像、商品、短视频封面</h1>
-          <p class="subtext">上传照片后，浏览器内直接运行小模型完成背景分割，支持透明背景和纯色背景输出。</p>
+          <a class="brand" href="/">Toolorial</a>
+          <p>Private, browser-native image tools.</p>
         </div>
-        <div class="controls">
-          <label class="upload-card" for="imageUpload">
-            <span>📷 选择图片</span>
-            <input id="imageUpload" type="file" accept="image/*" />
-          </label>
-          <button id="segmentBtn" class="primary-btn">一键抠图</button>
-          <button id="downloadBtn" class="secondary-btn" disabled>下载 PNG</button>
-          <label class="select-group">
-            <span>背景</span>
-            <select id="backgroundMode">
-              <option value="transparent">透明背景</option>
-              <option value="solid">纯色背景</option>
-            </select>
-          </label>
-          <label class="select-group">
-            <span>精度</span>
-            <select id="accuracyMode">
-              <option value="fast">快速版</option>
-              <option value="accurate" selected>高精度版</option>
-            </select>
-          </label>
-        </div>
-      </section>
-
-      <section class="result-grid">
-        <article class="preview-card">
-          <h2>原图</h2>
-          <canvas id="sourceCanvas"></canvas>
-        </article>
-        <article class="preview-card">
-          <h2>抠图结果</h2>
-          <canvas id="resultCanvas"></canvas>
-        </article>
-      </section>
-
-      <p id="status" class="status">请先上传一张图片，然后点击“一键抠图”。</p>
-    </main>
-
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/selfie_segmentation.js"></script>
-    <script src="app.js?v=2"></script>
-  </body>
+        <nav aria-label="Footer">
+          <a href="/remove-background/">Remove BG</a>
+          <a href="/docs/">Docs</a>
+          <a href="/blog/">Blog</a>
+          <a href="/faq/">FAQ</a>
+          <a href="/about/">About</a>
+          <a href="/contact/">Contact</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="/terms/">Terms</a>
+        </nav>
+      </div>
+      <p class="footer-note">Images are processed in your browser. Advertising may use cookies on content pages.</p>
+    </footer>
+  
+  <script src="/app.js" defer></script>
+</body>
 </html>

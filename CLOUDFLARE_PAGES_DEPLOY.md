@@ -1,79 +1,66 @@
-# Cloudflare Pages 部署指南
+# Cloudflare Workers 部署指南
 
-这是一个适合你当前 Web 端项目的低成本部署方案，适合不想备案但希望在国内访问尽量快的场景。
+当前站点使用 Cloudflare Workers Static Assets。Worker 只处理兜底响应和响应头，不读取上传图片，也不写入 KV/R2/D1。
 
-## 1. 准备工作
-
-1. 注册一个 GitHub 账号。
-2. 新建一个 GitHub 仓库，例如 `cutout-web`。
-3. 将 `h:\tool` 目录下的文件推送到该仓库：
+## 1. 构建
 
 ```bash
-cd H:\tool
-git init
-git add .
-git commit -m "Initial web deploy"
-git branch -M main
-git remote add origin https://github.com/<你的用户名>/<仓库名>.git
-git push -u origin main
+cd F:/project/tool
+node scripts/build.mjs
 ```
 
-## 2. 注册 Cloudflare Pages
+产物在 `dist/`，包含全部 HTML、样式、脚本、模型文件、sitemap、robots、ads.txt、`_headers` 和 `_redirects`。
 
-1. 打开 https://pages.cloudflare.com/ 并登录。  
-2. 点击“Create a project”。
-3. 选择你的 GitHub 仓库。  
-4. 分支选择 `main`。  
-5. 构建设置：
-   - Framework preset: `None`  
-   - Build command: 留空  
-   - Build output directory: `.`  
-6. 点击“Save and Deploy”。
+## 2. 本地预览
 
-## 3. 部署完成后
-
-部署完成后你会得到一个默认域名，例如：
-
-```
-https://<项目名>.<用户名>.pages.dev
+```bash
+cd F:/project/tool
+npx wrangler dev
 ```
 
-这个地址就是可以访问的 Web 端。
+打开终端给出的本地地址。注意：Service Worker 只在 HTTPS 或 localhost 环境注册。
 
-## 4. 进一步优化国内访问
+## 3. 部署
 
-1. 在 Cloudflare Pages 设置里开启缓存。  
-2. 如果你有自定义域名，绑定域名并在 Cloudflare DNS 中配置。  
-3. 你也可以在 Domains 设置里启用 “Always Online” 和 “Auto Minify”。
-
-## 5. 访问说明
-
-- 你现在的项目是纯静态页面，所以直接部署即可。  
-- 由于你不备案，Cloudflare Pages 会走国际线路，但它会尽量使用亚洲节点，国内访问通常比直接海外主机更好。
-
-## 6. 后续如果需要
-
-如果你以后想要：
-- `自定义域名`  
-- `HTTPS`  
-- `页面加速`  
-- `CDN 缓存策略`  
-
-Cloudflare Pages 都可以直接配置。
-
----
-
-## 本地测试方式
-
-如果你想先在本地测试：
-
-```powershell
-cd H:\tool
-python -m http.server 8000
+```bash
+cd F:/project/tool
+npx wrangler deploy
 ```
 
-然后打开：
+`wrangler.toml` 已配置：
 
+```toml
+name = "toolorial-cutout"
+main = "src/worker/worker.js"
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+not_found_handling = "404-page"
+html_handling = "auto-trailing-slash"
 ```
-http://127.0.0.1:8000/index.html
-```
+
+## 4. 绑定域名
+
+在 Cloudflare Workers 的 Settings → Domains & Routes 添加 `toolorial.xyz` 和 `www.toolorial.xyz`，并确认 DNS 记录由 Cloudflare 代理。
+
+绑定后检查：
+
+- `https://toolorial.xyz/` 返回首页
+- `https://toolorial.xyz/robots.txt` 可访问
+- `https://toolorial.xyz/sitemap.xml` 可访问
+- `https://toolorial.xyz/vendor/mediapipe/selfie_segmentation.tflite` 可访问
+- `*.workers.dev` 返回 `X-Robots-Tag: noindex, nofollow`
+
+## 5. AdSense 申请前必须替换
+
+1. `src/site/content.mjs` 中的 `SITE.origin`、`SITE.domain`、`SITE.email`
+2. `dist/ads.txt` 会由构建脚本生成，拿到 AdSense 发布商 ID 后修改 `scripts/build.mjs` 里的 `adsTxt` 常量
+3. 确认 `hello@toolorial.xyz` 是可收信邮箱
+4. 申请通过后，再把 AdSense 脚本加入页面模板的 `<head>` 或内容区
+
+## 6. 注意
+
+- 一期模型只适合人像、头像和证件照风格照片。
+- 广告脚本可能使用 Cookie，但不会读取用户处理的图片像素。
+- 不要把用户上传目录写进 `dist/`，也不要新增读取 request body 的 Worker 接口。

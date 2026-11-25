@@ -1,42 +1,71 @@
-const CACHE_NAME = 'cutout-cache-v1';
+const CACHE_NAME = "toolorial-cache-v2";
+
 const CORE_ASSETS = [
-  './',
-  './index.html',
-  './styles.css',
-  './app.js?v=2',
-  './manifest.json'
+  "/",
+  "/styles.css",
+  "/app.js",
+  "/manifest.json",
+  "/vendor/mediapipe/selfie_segmentation.js",
+  "/vendor/mediapipe/selfie_segmentation.tflite",
+  "/vendor/mediapipe/selfie_segmentation_landscape.tflite",
+  "/vendor/mediapipe/selfie_segmentation_solution_simd_wasm_bin.js",
+  "/vendor/mediapipe/selfie_segmentation_solution_simd_wasm_bin.wasm",
+  "/vendor/mediapipe/selfie_segmentation_solution_wasm_bin.js",
+  "/vendor/mediapipe/selfie_segmentation_solution_wasm_bin.wasm",
 ];
 
-self.addEventListener('install', (event) => {
+self.addEventListener("install", (event) => {
   self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(CORE_ASSETS))
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(CORE_ASSETS)).catch(() => undefined)
   );
 });
 
-self.addEventListener('activate', (event) => {
+self.addEventListener("activate", (event) => {
   event.waitUntil(
     (async () => {
       const keys = await caches.keys();
-      await Promise.all(keys.map(k => { if (k !== CACHE_NAME) return caches.delete(k); }));
+      await Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key)));
       await self.clients.claim();
     })()
   );
 });
 
-self.addEventListener('fetch', (event) => {
-  const url = new URL(event.request.url);
-  // Bypass external CDN requests for large binary assets
-  if (url.origin !== location.origin) return;
-  event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) return cached;
-      return fetch(event.request).then((resp) => {
-        if (!resp || resp.status !== 200 || resp.type !== 'basic') return resp;
-        const respClone = resp.clone();
-        caches.open(CACHE_NAME).then((cache) => { cache.put(event.request, respClone); });
-        return resp;
-      }).catch(() => caches.match('./index.html'));
-    })
-  );
+self.addEventListener("fetch", (event) => {
+  const request = event.request;
+  if (request.method !== "GET") return;
+
+  const url = new URL(request.url);
+  if (url.origin !== self.location.origin) return;
+
+  const isAsset =
+    url.pathname.startsWith("/assets/") ||
+    url.pathname.startsWith("/vendor/") ||
+    url.pathname === "/styles.css" ||
+    url.pathname === "/app.js" ||
+    url.pathname === "/manifest.json";
+
+  if (isAsset) {
+    event.respondWith(
+      caches.match(request).then((cached) => {
+        if (cached) return cached;
+        return fetch(request).then((response) => {
+          if (response && response.ok) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+          }
+          return response;
+        });
+      })
+    );
+    return;
+  }
+
+  if (request.mode === "navigate") {
+    event.respondWith(
+      fetch(request)
+        .then((response) => response)
+        .catch(() => caches.match("/").then((cached) => cached || Response.error()))
+    );
+  }
 });

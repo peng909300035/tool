@@ -1,155 +1,293 @@
-const imageUpload = document.getElementById('imageUpload');
-const segmentBtn = document.getElementById('segmentBtn');
-const downloadBtn = document.getElementById('downloadBtn');
-const backgroundMode = document.getElementById('backgroundMode');
-const accuracyMode = document.getElementById('accuracyMode');
-const statusEl = document.getElementById('status');
-const sourceCanvas = document.getElementById('sourceCanvas');
-const resultCanvas = document.getElementById('resultCanvas');
+(() => {
+  "use strict";
 
-let originalImage = null;
-let segmentedImage = null;
-let currentFileName = 'segmented.png';
+  const MODEL_DIR = "/vendor/mediapipe/";
+  const MODEL_SCRIPT = `${MODEL_DIR}selfie_segmentation.js`;
+  const MAX_SIDE = 1024;
 
-function setStatus(message) {
-  statusEl.textContent = message;
-}
+  const uploadInput = document.getElementById("imageUpload");
+  const dropZone = document.getElementById("dropZone");
+  const segmentBtn = document.getElementById("segmentBtn");
+  const downloadBtn = document.getElementById("downloadBtn");
+  const clearBtn = document.getElementById("clearBtn");
+  const backgroundMode = document.getElementById("backgroundMode");
+  const backgroundColor = document.getElementById("backgroundColor");
+  const accuracyMode = document.getElementById("accuracyMode");
+  const statusEl = document.getElementById("status");
+  const loader = document.getElementById("loader");
+  const sourceCanvas = document.getElementById("sourceCanvas");
+  const resultCanvas = document.getElementById("resultCanvas");
 
-function loadImageToCanvas(file) {
-  const reader = new FileReader();
-  reader.onload = (event) => {
+  if (!uploadInput || !sourceCanvas || !resultCanvas) return;
+
+  let originalImage = null;
+  let objectUrl = null;
+  let segmenter = null;
+  let segmenterPromise = null;
+  let resultReady = false;
+  let currentFileName = "background-removed.png";
+
+  function setStatus(message) {
+    if (statusEl) statusEl.textContent = message;
+  }
+
+  function setLoading(isLoading) {
+    if (loader) loader.hidden = !isLoading;
+    if (segmentBtn) segmentBtn.disabled = isLoading || !originalImage;
+  }
+
+  function loadScriptOnce(src) {
+    return new Promise((resolve, reject) => {
+      const existing = document.querySelector(`script[src="${src}"]`);
+      if (existing && existing.dataset.loaded === "true") {
+        resolve();
+        return;
+      }
+      if (existing) {
+        existing.addEventListener("load", () => resolve(), { once: true });
+        existing.addEventListener("error", () => reject(new Error("Model script failed to load")), { once: true });
+        return;
+      }
+
+      const script = document.createElement("script");
+      script.src = src;
+      script.async = true;
+      script.addEventListener("load", () => {
+        script.dataset.loaded = "true";
+        resolve();
+      }, { once: true });
+      script.addEventListener("error", () => reject(new Error("Model script failed to load")), { once: true });
+      document.head.appendChild(script);
+    });
+  }
+
+  async function getSegmenter() {
+    if (segmenter) return segmenter;
+    if (segmenterPromise) return segmenterPromise;
+
+    segmenterPromise = (async () => {
+      setLoading(true);
+      setStatus("Loading local segmentation model…");
+      await loadScriptOnce(MODEL_SCRIPT);
+
+      const SelfieSegmentation = window.SelfieSegmentation;
+      if (!SelfieSegmentation) throw new Error("Segmentation model is unavailable");
+
+      segmenter = new SelfieSegmentation({
+        locateFile: (file) => `${MODEL_DIR}${file}`,
+      });
+
+      segmenter.onResults(renderResult);
+      return segmenter;
+    })();
+
+    try {
+      return await segmenterPromise;
+    } finally {
+      segmenterPromise = null;
+    }
+  }
+
+  function configureSegmenter() {
+    if (!segmenter) return;
+    const modelSelection = accuracyMode && accuracyMode.value === "fast" ? 1 : 0;
+    segmenter.setOptions({ modelSelection });
+  }
+
+  function renderResult(results) {
+    const width = resultCanvas.width;
+    const height = resultCanvas.height;
+    if (!width || !height) return;
+
+    const ctx = resultCanvas.getContext("2d", { willReadFrequently: true });
+    const sourceCtx = sourceCanvas.getContext("2d", { willReadFrequently: true });
+    const sourceData = sourceCtx.getImageData(0, 0, width, height);
+    const resultData = ctx.createImageData(width, height);
+
+    if (results.segmentationMask) {
+      const maskCanvas = document.createElement("canvas");
+      maskCanvas.width = width;
+      maskCanvas.height = height;
+      const maskCtx = maskCanvas.getContext("2d", { willReadFrequently: true });
+      maskCtx.drawImage(results.segmentationMask, 0, 0, width, height);
+      const maskData = maskCtx.getImageData(0, 0, width, height);
+
+      for (let i = 0; i < sourceData.data.length; i += 4) {
+        resultData.data[i] = sourceData.data[i];
+        resultData.data[i + 1] = sourceData.data[i + 1];
+        resultData.data[i + 2] = sourceData.data[i + 2];
+
+        const maskValue = maskData.data[i];
+        if (accuracyMode && accuracyMode.value === "fast") {
+          resultData.data[i + 3] = maskValue > 128 ? 255 : 0;
+        } else {
+          resultData.data[i + 3] = Math.round((maskValue / 255) * 255);
+        }
+      }
+      ctx.putImageData(resultData, 0, 0);
+    } else {
+      ctx.clearRect(0, 0, width, height);
+      ctx.drawImage(sourceCanvas, 0, 0, width, height);
+    }
+
+    if (backgroundMode && backgroundMode.value === "solid") {
+      const color = backgroundColor ? backgroundColor.value : "#2563eb";
+      const flatCanvas = document.createElement("canvas");
+      flatCanvas.width = width;
+      flatCanvas.height = height;
+      const flatCtx = flatCanvas.getContext("2d");
+      flatCtx.fillStyle = color;
+      flatCtx.fillRect(0, 0, width, height);
+      flatCtx.drawImage(resultCanvas, 0, 0, width, height);
+      ctx.clearRect(0, 0, width, height);
+      ctx.drawImage(flatCanvas, 0, 0);
+    }
+
+    resultReady = true;
+    if (downloadBtn) downloadBtn.disabled = false;
+    setStatus("Done. Your cutout is ready to download.");
+    setLoading(false);
+  }
+
+  function resetResult() {
+    resultReady = false;
+    if (downloadBtn) downloadBtn.disabled = true;
+    resultCanvas.getContext("2d").clearRect(0, 0, resultCanvas.width, resultCanvas.height);
+  }
+
+  function displayImage(file) {
+    if (!file || !file.type.startsWith("image/")) {
+      setStatus("Please choose a JPG, PNG, or WebP image.");
+      return;
+    }
+
+    if (objectUrl) URL.revokeObjectURL(objectUrl);
+    objectUrl = URL.createObjectURL(file);
+    currentFileName = `${file.name.replace(/\.[^.]+$/, "")}-cutout.png`;
+
     const img = new Image();
     img.onload = () => {
       originalImage = img;
-      const maxWidth = 640;
-      const scale = Math.min(1, maxWidth / img.width);
-      const width = Math.round(img.width * scale);
-      const height = Math.round(img.height * scale);
+      const scale = Math.min(1, MAX_SIDE / Math.max(img.width, img.height));
+      const width = Math.max(1, Math.round(img.width * scale));
+      const height = Math.max(1, Math.round(img.height * scale));
+
       sourceCanvas.width = width;
       sourceCanvas.height = height;
       resultCanvas.width = width;
       resultCanvas.height = height;
-      const ctx = sourceCanvas.getContext('2d');
-      ctx.drawImage(img, 0, 0, width, height);
-      setStatus('图片已加载，准备开始抠图。');
-      segmentBtn.disabled = false;
-      downloadBtn.disabled = true;
+
+      sourceCanvas.getContext("2d").drawImage(img, 0, 0, width, height);
+      resetResult();
+      if (segmentBtn) segmentBtn.disabled = false;
+      setStatus("Image loaded locally. Ready to remove the background.");
     };
-    img.src = event.target.result;
-  };
-  reader.readAsDataURL(file);
-}
-
-imageUpload.addEventListener('change', (event) => {
-  const file = event.target.files?.[0];
-  if (!file) return;
-  currentFileName = file.name.replace(/\.[^.]+$/, '') + '.png';
-  setStatus('正在读取图片...');
-  loadImageToCanvas(file);
-});
-
-segmentBtn.addEventListener('click', async () => {
-  if (!originalImage) {
-    setStatus('请先上传图片。');
-    return;
+    img.onerror = () => {
+      setStatus("That file could not be read. Please try another image.");
+    };
+    img.src = objectUrl;
   }
 
-  segmentBtn.disabled = true;
-  setStatus('正在使用轻量级分割模型处理图片...');
-
-  try {
-    const { SelfieSegmentation } = window;
-    if (!SelfieSegmentation) {
-      throw new Error('分割模型加载失败');
-    }
-
-    const segmentation = new SelfieSegmentation({
-      locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/${file}`
+  if (uploadInput) {
+    uploadInput.addEventListener("change", (event) => {
+      const file = event.target.files && event.target.files[0];
+      if (file) displayImage(file);
+      event.target.value = "";
     });
+  }
 
-    const modelSelection = accuracyMode.value === 'accurate' ? 0 : 1;
-    segmentation.setOptions({ modelSelection });
+  if (dropZone) {
+    dropZone.addEventListener("click", () => uploadInput && uploadInput.click());
+    dropZone.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        if (uploadInput) uploadInput.click();
+      }
+    });
+    ["dragenter", "dragover"].forEach((type) => {
+      dropZone.addEventListener(type, (event) => {
+        event.preventDefault();
+        dropZone.classList.add("is-dragging");
+      });
+    });
+    ["dragleave", "drop"].forEach((type) => {
+      dropZone.addEventListener(type, (event) => {
+        event.preventDefault();
+        dropZone.classList.remove("is-dragging");
+      });
+    });
+    dropZone.addEventListener("drop", (event) => {
+      const file = event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0];
+      if (file) displayImage(file);
+    });
+  }
 
-    segmentation.onResults((results) => {
-      const width = resultCanvas.width;
-      const height = resultCanvas.height;
-      const ctx = resultCanvas.getContext('2d');
-      ctx.clearRect(0, 0, width, height);
-
-      // 先获取原图的像素数据
-      const srcCtx = sourceCanvas.getContext('2d');
-      const srcImageData = srcCtx.getImageData(0, 0, width, height);
-      const resultImageData = ctx.createImageData(width, height);
-
-      if (results.segmentationMask) {
-        // 创建临时canvas来读取掩码数据
-        const maskTempCanvas = document.createElement('canvas');
-        maskTempCanvas.width = width;
-        maskTempCanvas.height = height;
-        const maskTempCtx = maskTempCanvas.getContext('2d');
-        maskTempCtx.drawImage(results.segmentationMask, 0, 0, width, height);
-        const maskImageData = maskTempCtx.getImageData(0, 0, width, height);
-
-        // 根据掩码应用到原图
-        for (let i = 0; i < srcImageData.data.length; i += 4) {
-          // 复制RGB
-          resultImageData.data[i] = srcImageData.data[i];
-          resultImageData.data[i + 1] = srcImageData.data[i + 1];
-          resultImageData.data[i + 2] = srcImageData.data[i + 2];
-          
-          // 掩码的亮度代表人物区域
-          // 使用红通道作为掩码值（MediaPipe分割掩码通常使用单通道）
-          const maskValue = maskImageData.data[i]; // 红通道
-          
-          if (accuracyMode.value === 'accurate') {
-            // 高精度：保留半透明边缘，进行平滑处理
-            const maskAlpha = maskValue / 255;
-            resultImageData.data[i + 3] = Math.round(maskAlpha * 255);
-          } else {
-            // 快速：二值化处理
-            resultImageData.data[i + 3] = maskValue > 128 ? 255 : 0;
-          }
+  document.addEventListener("paste", (event) => {
+    const items = event.clipboardData && event.clipboardData.items;
+    if (!items) return;
+    for (const item of items) {
+      if (item.type.startsWith("image/")) {
+        const file = item.getAsFile();
+        if (file) {
+          displayImage(file);
+          break;
         }
-        ctx.putImageData(resultImageData, 0, 0);
-      } else {
-        // 无掩码时直接显示原图
-        ctx.drawImage(sourceCanvas, 0, 0, width, height);
+      }
+    }
+  });
+
+  if (segmentBtn) {
+    segmentBtn.addEventListener("click", async () => {
+      if (!originalImage) {
+        setStatus("Choose a portrait first.");
+        return;
       }
 
-      if (backgroundMode.value === 'solid') {
-        const bgCanvas = document.createElement('canvas');
-        bgCanvas.width = width;
-        bgCanvas.height = height;
-        const bgCtx = bgCanvas.getContext('2d');
-        bgCtx.fillStyle = '#4ec5ff';
-        bgCtx.fillRect(0, 0, width, height);
-        bgCtx.drawImage(resultCanvas, 0, 0, width, height);
-        ctx.clearRect(0, 0, width, height);
-        ctx.drawImage(bgCanvas, 0, 0, width, height);
-      }
+      setLoading(true);
+      resultReady = false;
+      if (downloadBtn) downloadBtn.disabled = true;
+      setStatus("Preparing local model…");
 
-      segmentedImage = new Image();
-      segmentedImage.src = resultCanvas.toDataURL('image/png');
-      setStatus(accuracyMode.value === 'accurate' ? '高精度抠图已完成，可直接下载。' : '快速抠图已完成，可直接下载。');
-      downloadBtn.disabled = false;
-      segmentBtn.disabled = false;
+      try {
+        const model = await getSegmenter();
+        configureSegmenter();
+        setStatus("Processing in your browser…");
+        await model.send({ image: sourceCanvas });
+      } catch (error) {
+        setLoading(false);
+        setStatus(`Processing failed: ${error.message || "Please try another image."}`);
+      }
     });
-
-    await segmentation.send({ image: sourceCanvas });
-  } catch (error) {
-    console.error(error);
-    setStatus(`处理失败：${error.message || '请换一张图片或稍后重试。'}`);
-    segmentBtn.disabled = false;
   }
-});
 
-downloadBtn.addEventListener('click', () => {
-  if (!segmentedImage) return;
-  const link = document.createElement('a');
-  link.download = currentFileName;
-  link.href = resultCanvas.toDataURL('image/png');
-  link.click();
-});
+  if (downloadBtn) {
+    downloadBtn.addEventListener("click", () => {
+      if (!resultReady) return;
+      const link = document.createElement("a");
+      link.download = currentFileName;
+      link.href = resultCanvas.toDataURL("image/png");
+      link.click();
+    });
+  }
 
-segmentBtn.disabled = true;
-setStatus('请先上传一张图片。');
+  if (clearBtn) {
+    clearBtn.addEventListener("click", () => {
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+      objectUrl = null;
+      originalImage = null;
+      resultReady = false;
+      if (uploadInput) uploadInput.value = "";
+      if (segmentBtn) segmentBtn.disabled = true;
+      if (downloadBtn) downloadBtn.disabled = true;
+      sourceCanvas.getContext("2d").clearRect(0, 0, sourceCanvas.width, sourceCanvas.height);
+      resultCanvas.getContext("2d").clearRect(0, 0, resultCanvas.width, resultCanvas.height);
+      setStatus("Cleared. Choose a portrait to start.");
+    });
+  }
+
+  if ("serviceWorker" in navigator && location.protocol === "https:") {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("/service-worker.js").catch(() => {});
+    });
+  }
+})();
