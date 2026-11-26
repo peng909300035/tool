@@ -2,7 +2,7 @@ export const SITE = {
   origin: "https://tooloralab.xyz",
   domain: "tooloralab.xyz",
   name: "Toolorial",
-  email: "hello@tooloralab.xyz",
+  email: "wp909300035@gmail.com",
   description:
     "Private, browser-native image tools. Remove photo backgrounds locally without uploads, accounts, or server storage.",
 };
