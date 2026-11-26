@@ -8,7 +8,7 @@ export const SITE = {
 };
 
 export const NAV = [
-  { label: "Remove BG", href: "/remove-background/" },
+  { label: "Tools", href: "/tools/" },
   { label: "Docs", href: "/docs/" },
   { label: "Blog", href: "/blog/" },
   { label: "FAQ", href: "/faq/" },
@@ -65,7 +65,317 @@ export const GENERAL_FAQS = [
   },
 ];
 
+export const TOOLS = [
+  {
+    path: "/remove-background/",
+    name: "AI Background Remover",
+    short: "Remove BG",
+    tagline: "Cut out portraits locally",
+    description:
+      "Remove the background from portraits and avatars in your browser. No upload, no sign-up, transparent PNG export.",
+    title: "Free AI Background Remover Online | Private, In-Browser | Toolorial",
+    metaDescription:
+      "Remove portrait backgrounds in your browser with a small local AI model. No upload, no sign-up, transparent PNG export.",
+    script: "/app.js",
+    dataTool: "remove-background",
+    controls: "",
+  },
+  {
+    path: "/compress-image/",
+    name: "Image Compressor",
+    short: "Compress",
+    tagline: "Shrink files, keep quality",
+    description:
+      "Compress JPG, PNG, and WebP images in your browser. Adjust quality and compare file sizes before you download.",
+    title: "Compress Image Online Without Uploading | Toolorial",
+    metaDescription:
+      "Compress JPG, PNG and WebP images locally in your browser. No upload, no account, instant download.",
+    script: "/tools.js",
+    dataTool: "compress",
+    controls: `
+      <label class="field"><span>Output format</span>
+        <select id="outputFormat">
+          <option value="image/jpeg">JPG</option>
+          <option value="image/webp">WebP</option>
+          <option value="image/png">PNG (lossless)</option>
+        </select>
+      </label>
+      <label class="field"><span>Quality (JPG / WebP)</span>
+        <input id="qualityRange" type="range" min="10" max="100" value="82">
+      </label>
+    `,
+  },
+  {
+    path: "/convert-image/",
+    name: "Image Converter",
+    short: "Convert",
+    tagline: "PNG, JPG and WebP in one place",
+    description:
+      "Convert images between PNG, JPG, and WebP entirely in your browser. Keep your original file on your device.",
+    title: "Convert PNG to JPG or WebP Without Uploading | Toolorial",
+    metaDescription:
+      "Convert images between PNG, JPG and WebP locally in your browser. No upload, no account, original file stays on your device.",
+    script: "/tools.js",
+    dataTool: "convert",
+    controls: `
+      <label class="field"><span>Convert to</span>
+        <select id="outputFormat">
+          <option value="image/png">PNG</option>
+          <option value="image/jpeg">JPG</option>
+          <option value="image/webp">WebP</option>
+        </select>
+      </label>
+      <label class="field"><span>Quality (JPG / WebP)</span>
+        <input id="qualityRange" type="range" min="10" max="100" value="90">
+      </label>
+    `,
+  },
+  {
+    path: "/resize-image/",
+    name: "Image Resizer",
+    short: "Resize",
+    tagline: "Fit any platform size",
+    description:
+      "Resize images by pixels, percentage, or a preset for social platforms. Everything happens locally in the browser.",
+    title: "Resize Image Online Without Uploading | Toolorial",
+    metaDescription:
+      "Resize images by pixels, percent, or social media presets in your browser. No upload, no account, instant download.",
+    script: "/tools.js",
+    dataTool: "resize",
+    controls: `
+      <label class="field"><span>Width (px)</span><input id="targetWidth" type="number" min="1" placeholder="Auto"></label>
+      <label class="field"><span>Height (px)</span><input id="targetHeight" type="number" min="1" placeholder="Auto"></label>
+      <label class="field"><span>Or scale</span>
+        <select id="scalePreset">
+          <option value="1">100%</option>
+          <option value="0.75">75%</option>
+          <option value="0.5">50%</option>
+          <option value="0.25">25%</option>
+        </select>
+      </label>
+      <label class="field"><span>Popular size</span>
+        <select id="sizePreset">
+          <option value="custom">Custom</option>
+          <option value="1024x1024">Square 1024 × 1024</option>
+          <option value="1080x1350">Portrait 1080 × 1350</option>
+          <option value="1200x630">Social card 1200 × 630</option>
+          <option value="1920x1080">Widescreen 1920 × 1080</option>
+          <option value="500x500">Avatar 500 × 500</option>
+        </select>
+      </label>
+      <label class="field"><span>Output format</span>
+        <select id="outputFormat">
+          <option value="image/jpeg">JPG</option>
+          <option value="image/png">PNG</option>
+          <option value="image/webp">WebP</option>
+        </select>
+      </label>
+      <label class="field"><span>Quality (JPG / WebP)</span>
+        <input id="qualityRange" type="range" min="10" max="100" value="90">
+      </label>
+    `,
+  },
+  {
+    path: "/remove-exif/",
+    name: "EXIF Remover",
+    short: "Remove EXIF",
+    tagline: "Strip hidden metadata",
+    description:
+      "Remove EXIF metadata from photos in your browser. The export is rebuilt from pixels, so location and device tags are left behind.",
+    title: "Remove EXIF Data From Photos Without Uploading | Toolorial",
+    metaDescription:
+      "Strip EXIF location and camera metadata from JPG, PNG and WebP photos locally in your browser. No upload, no account.",
+    script: "/tools.js",
+    dataTool: "exif",
+    controls: `
+      <label class="field"><span>Output format</span>
+        <select id="outputFormat">
+          <option value="image/jpeg">JPG</option>
+          <option value="image/png">PNG</option>
+          <option value="image/webp">WebP</option>
+        </select>
+      </label>
+      <label class="field"><span>Quality (JPG / WebP)</span>
+        <input id="qualityRange" type="range" min="10" max="100" value="92">
+      </label>
+    `,
+  },
+];
+
+export const TOOL_FAQS_BY_PATH = {
+  "/compress-image/": [
+    {
+      q: "Does compressing an image reduce quality?",
+      a: "JPG and WebP are lossy formats, so lowering quality removes some detail. Start around 80 percent and preview the result. PNG is lossless and will usually get larger instead of smaller.",
+    },
+    {
+      q: "Which output format should I choose?",
+      a: "Use JPG for ordinary photos, WebP for smaller web images, and PNG only when you need lossless pixels or transparency.",
+    },
+    {
+      q: "Is my image uploaded anywhere?",
+      a: "No. Compression runs through the Canvas API in your browser. The file is read into memory, processed, and exported back to your device.",
+    },
+    {
+      q: "Why did my PNG get bigger?",
+      a: "PNG stores pixels losslessly, so re-encoding a photo as PNG often increases file size. Choose JPG or WebP for photographs.",
+    },
+  ],
+  "/convert-image/": [
+    {
+      q: "Which formats can I convert between?",
+      a: "The converter handles PNG, JPG, and WebP. All three are supported natively by modern browsers, so conversion happens locally.",
+    },
+    {
+      q: "Will conversion keep transparency?",
+      a: "PNG and WebP can store an alpha channel. JPG cannot, so transparent areas are flattened onto white when you convert to JPG.",
+    },
+    {
+      q: "Does conversion remove EXIF data?",
+      a: "Yes. The export is rebuilt from canvas pixels, so metadata from the original file is not carried into the new image.",
+    },
+    {
+      q: "Is there a file size limit?",
+      a: "There is no server upload limit because nothing is uploaded. Very large images are limited only by your device memory.",
+    },
+  ],
+  "/resize-image/": [
+    {
+      q: "How do the width and height fields work?",
+      a: "Fill in one dimension and the other is calculated from the original aspect ratio. Fill in both to set an exact size.",
+    },
+    {
+      q: "Which preset should I use?",
+      a: "Square works for Instagram posts, 1080 × 1350 for portrait posts, 1200 × 630 for link previews, and 500 × 500 for avatars.",
+    },
+    {
+      q: "Does resizing improve image quality?",
+      a: "No. Resizing changes pixel dimensions. Downscaling can reduce file size, but it cannot add detail that was not in the original.",
+    },
+    {
+      q: "Are my images uploaded?",
+      a: "No. Resizing uses Canvas in your browser, so the original file never leaves your device.",
+    },
+  ],
+  "/remove-exif/": [
+    {
+      q: "What is EXIF data?",
+      a: "EXIF is metadata stored inside image files. It can include camera model, timestamps, lens settings, and sometimes GPS coordinates.",
+    },
+    {
+      q: "Does this remove every metadata field?",
+      a: "The export is generated from decoded pixels, which strips the original metadata blocks. Open the result in a metadata viewer if you need to verify a specific field.",
+    },
+    {
+      q: "Does removing EXIF change the picture?",
+      a: "PNG output is lossless. If you choose JPG or WebP, the image is re-encoded at your chosen quality, so keep quality high for best results.",
+    },
+    {
+      q: "Why should I remove EXIF before sharing?",
+      a: "Location and device details can reveal a home address, workplace, or routine when several photos are published together.",
+    },
+  ],
+};
+
 export const ARTICLES = [
+  {
+    slug: "compress-images-without-uploading",
+    title: "How to compress images without uploading them",
+    description:
+      "A practical guide to browser-based image compression: quality settings, format choices, and how to shrink files without a private photo leaving your device.",
+    category: "How-to",
+    date: "2026-11-26",
+    body: `
+      <p>Image compression reduces file size by removing information your eyes are unlikely to notice. Most online compressors ask you to upload the original file first. A browser-based tool can do the same job locally, with no remote copy of the image.</p>
+      <h2 id="lossy-vs-lossless">Lossy versus lossless</h2>
+      <p>JPG and WebP are lossy formats. They discard detail in exchange for smaller files, and the quality slider controls how much is thrown away. PNG is lossless: it keeps every pixel but usually produces much larger files for photographs.</p>
+      <h2 id="quality">Choosing a quality setting</h2>
+      <p>Start around 80 percent for JPG and WebP. That is often close to visually identical to the original at normal viewing size. Go lower only when file size matters more than fine texture, such as for a preview thumbnail.</p>
+      <h2 id="steps">A simple workflow</h2>
+      <ol>
+        <li>Open a local compressor, for example our <a href="/compress-image/">image compressor</a>.</li>
+        <li>Drop in a photo and compare the original and result sizes.</li>
+        <li>Adjust quality until the file is small enough without visible artifacts.</li>
+        <li>Download and view it at actual display size before publishing.</li>
+      </ol>
+      <h2 id="limits">Know the limits</h2>
+      <p>Compressing an already-compressed JPG again will not help. Each pass loses more detail. Keep one high-quality master and produce compressed copies from that master instead of chaining exports.</p>
+      <h2 id="privacy">Why local matters</h2>
+      <p>Photos often contain people, documents, or unpublished work. Processing them in the browser avoids creating another copy on a remote server, which is a small habit with a real privacy benefit.</p>
+    `,
+  },
+  {
+    slug: "png-to-jpg-or-webp-which-format-to-choose",
+    title: "PNG to JPG or WebP: which format should you choose?",
+    description:
+      "When to keep PNG, when to switch to JPG, and where WebP wins — plus how to convert images locally without uploading them.",
+    category: "Formats",
+    date: "2026-11-24",
+    body: `
+      <p>The right image format depends on what the picture contains and where it will be published. Converting between formats is easy, but choosing the wrong one can add file size or remove transparency you needed.</p>
+      <h2 id="png">Keep PNG for transparency and sharp edges</h2>
+      <p>PNG stores an alpha channel and preserves hard edges without compression artifacts. Use it for logos, screenshots, icons, and cutouts with transparent backgrounds. The tradeoff is size: photographs become large PNG files.</p>
+      <h2 id="jpg">Use JPG for photographs</h2>
+      <p>JPG is still the most compatible format for photos. It has no transparency, so transparent areas are flattened onto a solid color, usually white. Set quality around 80 to 90 for a good balance.</p>
+      <h2 id="webp">WebP for the modern web</h2>
+      <p>WebP supports both lossy compression and transparency, and it is usually smaller than the equivalent JPG or PNG. All modern browsers support it. Choose it when you control the delivery environment.</p>
+      <h2 id="conversion">Converting locally</h2>
+      <p>A browser converter such as our <a href="/convert-image/">image converter</a> reads the file into memory, draws it on a canvas, and exports the new format. Converting also strips the original metadata, which is often a welcome side effect.</p>
+      <h2 id="checklist">A quick checklist</h2>
+      <ul>
+        <li>Need transparency? PNG or WebP.</li>
+        <li>Photograph for maximum compatibility? JPG.</li>
+        <li>Web delivery where you control browsers? WebP.</li>
+        <li>Unsure? Keep a PNG master and export copies as needed.</li>
+      </ul>
+    `,
+  },
+  {
+    slug: "how-to-remove-exif-data-from-a-photo",
+    title: "How to remove EXIF data from a photo",
+    description:
+      "What EXIF metadata contains, why it can be sensitive, and a local method for stripping it before you share an image.",
+    category: "Privacy",
+    date: "2026-11-22",
+    body: `
+      <p>A photo file is more than a grid of pixels. EXIF metadata can record the camera model, lens settings, the exact time a picture was taken, and sometimes GPS coordinates. That information is useful for organizing a camera roll, but it is not always meant for publication.</p>
+      <h2 id="what">What EXIF usually includes</h2>
+      <p>Common fields include date and time, device model, aperture and shutter speed, orientation, and software used for editing. Some phones add location. Social networks often strip part of this data, but files exported from editing tools may keep it.</p>
+      <h2 id="why">Why remove it</h2>
+      <p>Location metadata can reveal where you live or work. When several photos are published together, timestamps can also describe a daily routine. Removing metadata before sharing is a simple way to avoid exposing details you did not intend to publish.</p>
+      <h2 id="how">A local method</h2>
+      <p>Open a local tool such as our <a href="/remove-exif/">EXIF remover</a>, choose the image, and export it. The tool decodes the pixels and rebuilds the file, so the original metadata blocks are not carried into the new image. Choose PNG for lossless output or keep JPG quality high.</p>
+      <h2 id="verify">Verify the result</h2>
+      <p>Open the exported file in a metadata viewer before publishing it. Different tools remove different fields, and checking once is faster than assuming the job was done.</p>
+      <h2 id="habit">Make it a habit</h2>
+      <p>Strip metadata whenever you export a photo for a public destination: a forum, a listing, a job application, or a personal site. It takes a few seconds and avoids a class of privacy mistakes that are easy to overlook.</p>
+    `,
+  },
+  {
+    slug: "image-size-presets-for-social-platforms",
+    title: "Image size presets for social platforms and avatars",
+    description:
+      "Common pixel dimensions for profiles, posts, and link previews, plus how to resize a photo locally to fit them.",
+    category: "Guides",
+    date: "2026-11-20",
+    body: `
+      <p>Platforms change their recommended dimensions, but a few common sizes cover most needs. Resizing locally lets you prepare the right file without uploading an original to a third-party site.</p>
+      <h2 id="sizes">Useful dimensions</h2>
+      <ul>
+        <li>500 × 500 — a safe avatar size for most services.</li>
+        <li>1024 × 1024 — square posts and catalog thumbnails.</li>
+        <li>1080 × 1350 — portrait posts where more vertical space helps.</li>
+        <li>1200 × 630 — link preview and social card images.</li>
+        <li>1920 × 1080 — widescreen backgrounds and presentations.</li>
+      </ul>
+      <h2 id="ratio">Aspect ratio matters</h2>
+      <p>Fill only the width or the height in a resizer and the other side follows the original ratio. That avoids stretching. Use exact dimensions only when the destination requires a specific crop.</p>
+      <h2 id="resize">Resizing in the browser</h2>
+      <p>Our <a href="/resize-image/">image resizer</a> works with pixels, percentages, and presets. The file is processed through Canvas on your device, so the original photo is not uploaded.</p>
+      <h2 id="quality">Quality notes</h2>
+      <p>Downscaling reduces file size but cannot add detail. Start from the highest-quality original you have, export at a sensible quality setting, and check the result at the size it will actually be displayed.</p>
+    `,
+  },
   {
     slug: "remove-background-without-uploading",
     title: "How to remove an image background without uploading it",
@@ -81,7 +391,7 @@ export const ARTICLES = [
       <h2 id="steps">Steps for a clean result</h2>
       <ol>
         <li>Use a photo where the subject is clearly separated from the background.</li>
-        <li>Choose the high-accuracy mode when edge detail matters.</li>
+        <li>Use a plain background when edge detail matters.</li>
         <li>Inspect hair, shoulders, and hands before exporting.</li>
         <li>Export a transparent PNG if you plan to place the subject on another color.</li>
       </ol>
@@ -126,7 +436,7 @@ export const ARTICLES = [
       <h2 id="export">Export settings</h2>
       <ul>
         <li>Choose transparent background, not solid color.</li>
-        <li>Use high accuracy for soft edges.</li>
+        <li>Use an evenly lit source photo for soft edges.</li>
         <li>Keep the subject slightly away from the canvas edge.</li>
         <li>Download the PNG and inspect it on both light and dark backgrounds.</li>
       </ul>
@@ -147,8 +457,8 @@ export const ARTICLES = [
       <p>Hair is the hardest part of portrait cutouts. Individual strands are thin, semi-transparent, and often overlap the background. A segmentation model must decide whether each pixel belongs to the subject.</p>
       <h2 id="lighting">Lighting matters more than resolution</h2>
       <p>A neat, evenly lit photo with a plain wall behind the subject usually produces a better cutout than a high-resolution photo taken against a busy scene.</p>
-      <h2 id="accuracy">Use high accuracy mode</h2>
-      <p>Fast mode applies a harder threshold to the mask. That removes more background pixels but can also cut away soft hair edges. High accuracy keeps partial alpha values, which look more natural on both light and dark backgrounds.</p>
+      <h2 id="accuracy">Look for soft alpha values</h2>
+      <p>A good cutout keeps partial transparency along hair edges instead of a hard on/off mask. The local model uses a confidence mask for this, so individual strands blend more naturally on both light and dark backgrounds.</p>
       <h2 id="check">Check on two backgrounds</h2>
       <p>Preview the exported PNG on white and black. Hair that looks fine on white may show a gray halo on black. If that happens, try a new source photo rather than repeatedly sharpening the output.</p>
       <h2 id="expectations">Set realistic expectations</h2>
@@ -330,7 +640,7 @@ function ld(schema) {
 
 function navHtml() {
   return NAV.map(
-    (item) => `<a href="${esc(item.href)}"${item.href === "/remove-background/" ? ' class="nav-cta"' : ""}>${esc(item.label)}</a>`
+    (item) => `<a href="${esc(item.href)}"${item.href === "/tools/" ? ' class="nav-cta"' : ""}>${esc(item.label)}</a>`
   ).join("");
 }
 
@@ -343,7 +653,8 @@ function footerHtml() {
           <p>Private, browser-native image tools.</p>
         </div>
         <nav aria-label="Footer">
-          <a href="/remove-background/">Remove BG</a>
+          <a href="/tools/">All tools</a>
+          ${TOOLS.map((tool) => `<a href="${tool.path}">${esc(tool.short)}</a>`).join("\n          ")}
           <a href="/docs/">Docs</a>
           <a href="/blog/">Blog</a>
           <a href="/faq/">FAQ</a>
@@ -424,6 +735,8 @@ export function layout({
   schema = [],
   hreflang = false,
   bodyClass = "",
+  script = "/app.js",
+  dataTool = "",
 }) {
   const canonical = urlFor(path);
   const alternates = hreflang
@@ -455,7 +768,7 @@ export function layout({
   <link rel="stylesheet" href="/styles.css">
   ${schema.map(ld).join("\n  ")}
 </head>
-<body class="${esc(bodyClass)}">
+<body class="${esc(bodyClass)}"${dataTool ? ` data-tool="${esc(dataTool)}"` : ""}>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="header-inner">
@@ -467,7 +780,7 @@ export function layout({
 ${body}
   </main>
   ${footerHtml()}
-  <script src="/app.js" defer></script>
+  <script src="${esc(script)}" defer></script>
 </body>
 </html>
 `;
@@ -477,17 +790,17 @@ function homeBody() {
   return `
     <section class="hero">
       <div class="hero-copy">
-        <p class="eyebrow">Creative studio · Private by design</p>
-        <h1>Remove backgrounds without uploading a single photo.</h1>
-        <p class="lead">Toolorial runs a small AI model inside your browser. Pick a portrait, clean the background, and export a transparent PNG. No account, no upload step, no server-side image storage.</p>
+        <p class="eyebrow">Private image tools · No uploads</p>
+        <h1>Edit images in your browser, not on someone else's server.</h1>
+        <p class="lead">Compress, convert, resize, strip EXIF data, and cut out portraits — without sending a single photo to a server. No accounts, no upload queues, no hidden copies of your files.</p>
         <div class="hero-actions">
-          <a class="btn primary" href="/remove-background/">Try the remover</a>
+          <a class="btn primary" href="/tools/">Browse all tools</a>
           <a class="btn ghost" href="/docs/how-it-works/">How it works</a>
         </div>
         <ul class="trust-list">
-          <li>Local processing</li>
+          <li>Runs on your device</li>
           <li>No sign-up</li>
-          <li>PNG export</li>
+          <li>Five free tools</li>
         </ul>
       </div>
       <div class="hero-visual">
@@ -501,17 +814,37 @@ function homeBody() {
             <img src="/assets/sample-cutout.svg" width="420" height="420" alt="Portrait cutout with checkerboard background">
           </div>
         </div>
-        <p class="visual-caption">Your image is drawn on a canvas, masked in the browser, and exported back to your device.</p>
+        <p class="visual-caption">Every tool reads your file into browser memory, processes it locally, and exports the result back to your device.</p>
       </div>
     </section>
 
     ${adSlot("home-top")}
 
-    <section class="section" id="features">
+    <section class="section" id="tools">
       <div class="section-heading">
-        <p class="section-index">01 / Privacy</p>
+        <p class="section-index">01 / Toolkit</p>
+        <h2>Five tools, one privacy promise</h2>
+        <p>Every tool has its own page and runs entirely in your browser. Pick the one you need and start immediately.</p>
+      </div>
+      <div class="tool-grid">
+        ${TOOLS.map(
+          (tool, index) => `
+          <a class="tool-card" href="${tool.path}">
+            <span class="tool-number">${String(index + 1).padStart(2, "0")}</span>
+            <h3>${esc(tool.name)}</h3>
+            <p>${esc(tool.tagline)}</p>
+            <span class="tool-arrow" aria-hidden="true">→</span>
+          </a>`
+        ).join("")}
+      </div>
+      <p><a class="text-link" href="/tools/">Browse the full toolkit</a></p>
+    </section>
+
+    <section class="section">
+      <div class="section-heading">
+        <p class="section-index">02 / Privacy</p>
         <h2>Your photos stay on your device</h2>
-        <p>The editing flow reads your file in the browser. We do not operate an upload endpoint or an image database.</p>
+        <p>Tools read your file in the browser. We do not operate an upload endpoint or an image database.</p>
       </div>
       <div class="feature-grid">
         <article class="card">
@@ -524,29 +857,29 @@ function homeBody() {
         </article>
         <article class="card">
           <h3>Reusable output</h3>
-          <p>Export a transparent PNG master, then place the subject on any color or layout you need.</p>
+          <p>Export a clean file you can reuse, with formats that work in real publishing workflows.</p>
         </article>
       </div>
     </section>
 
     <section class="section split">
       <div>
-        <p class="section-index">02 / Speed</p>
-        <h2>Small model, fast start</h2>
-        <p>The segmentation model is cached by your browser after first use. The page loads quickly because the model is only requested when you start an edit.</p>
+        <p class="section-index">03 / Speed</p>
+        <h2>No upload, no waiting</h2>
+        <p>Most tools need no download at all. The only one that loads a model is the background remover, and that model is cached by your browser after first use.</p>
       </div>
       <div class="steps">
-        <div><strong>1</strong><span>Choose a portrait</span></div>
-        <div><strong>2</strong><span>Mask locally</span></div>
-        <div><strong>3</strong><span>Download PNG</span></div>
+        <div><strong>1</strong><span>Choose a tool</span></div>
+        <div><strong>2</strong><span>Drop your file</span></div>
+        <div><strong>3</strong><span>Download the result</span></div>
       </div>
     </section>
 
     <section class="section tool-cta">
       <div>
-        <p class="section-index">03 / AI background remover</p>
+        <p class="section-index">04 / Background remover</p>
         <h2>Clean cutouts for portraits and avatars</h2>
-        <p>Best for profile photos, ID-style portraits, and headshots. High accuracy mode keeps soft edges and produces an alpha channel.</p>
+        <p>A small local model removes the background from profile photos and headshots and exports a transparent PNG. Your photo is never uploaded.</p>
       </div>
       <a class="btn primary" href="/remove-background/">Open the tool</a>
     </section>
@@ -556,7 +889,7 @@ function homeBody() {
         <p class="section-index">FAQ</p>
         <h2>Frequently asked questions</h2>
       </div>
-      <div class="faq-list">${faqHtml(TOOL_FAQS.slice(0, 4))}</div>
+      <div class="faq-list">${faqHtml([...GENERAL_FAQS.slice(0, 2), ...TOOL_FAQS.slice(0, 2)])}</div>
     </section>
 
     <section class="section">
@@ -593,12 +926,9 @@ function toolBody() {
           <label class="field"><span>Color</span>
             <input id="backgroundColor" type="color" value="#2563eb">
           </label>
-          <label class="field"><span>Mode</span>
-            <select id="accuracyMode">
-              <option value="fast">Fast</option>
-              <option value="accurate" selected>High accuracy</option>
-            </select>
-          </label>
+          <div class="field"><span>Mask direction</span>
+            <label class="checkbox-line"><input id="invertMask" type="checkbox"> Invert if the result looks reversed</label>
+          </div>
         </div>
 
         <div class="button-row">
@@ -648,6 +978,133 @@ function toolBody() {
   `;
 }
 
+function toolsIndexBody() {
+  return `
+    <section class="page-hero compact">
+      <p class="eyebrow">Toolkit</p>
+      <h1>Private image tools, all in one place</h1>
+      <p class="lead">Five focused utilities that run in your browser. No uploads, no accounts, no server-side copies of your files.</p>
+    </section>
+    ${adSlot("tools-top")}
+    <section class="section">
+      <div class="tool-grid tool-grid-large">
+        ${TOOLS.map(
+          (tool, index) => `
+          <article class="tool-card tool-card-large">
+            <span class="tool-number">${String(index + 1).padStart(2, "0")}</span>
+            <h2><a href="${tool.path}">${esc(tool.name)}</a></h2>
+            <p>${esc(tool.description)}</p>
+            <a class="text-link" href="${tool.path}">Open tool →</a>
+          </article>`
+        ).join("")}
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-heading"><p class="section-index">How it works</p><h2>The same privacy model everywhere</h2></div>
+      <div class="steps horizontal">
+        <div><strong>01</strong><h3>Open a tool</h3><p>Each utility has its own page, so you only load what you need.</p></div>
+        <div><strong>02</strong><h3>Drop your file</h3><p>The browser reads the image into memory. Nothing is uploaded.</p></div>
+        <div><strong>03</strong><h3>Download locally</h3><p>The result is generated on your device and saved straight to it.</p></div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-heading"><p class="section-index">FAQ</p><h2>Common questions</h2></div>
+      <div class="faq-list">${faqHtml(GENERAL_FAQS)}</div>
+    </section>
+  `;
+}
+
+function genericToolBody(tool) {
+  const faqs = TOOL_FAQS_BY_PATH[tool.path] || [];
+  const helpText =
+    tool.path === "/remove-exif/"
+      ? "The export is rebuilt from image pixels, so original metadata blocks are not carried over."
+      : tool.path === "/resize-image/"
+      ? "Fill in one dimension to keep the aspect ratio, or pick a preset size."
+      : "Preview the result and compare file sizes before downloading.";
+
+  return `
+    <section class="page-hero compact">
+      <p class="eyebrow">Free · Private · No watermark</p>
+      <h1>${esc(tool.name)}</h1>
+      <p class="lead">${esc(tool.description)}</p>
+    </section>
+
+    <section class="tool-layout">
+      <div class="tool-panel">
+        <div id="dropZone" class="drop-zone" tabindex="0" role="button" aria-label="Choose or drop an image">
+          <strong>Drop an image here</strong>
+          <span>or click to choose a JPG, PNG, or WebP file</span>
+          <input id="imageUpload" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+        </div>
+
+        <div class="control-row">${tool.controls}</div>
+
+        <div class="button-row">
+          <button id="processBtn" class="btn primary" type="button" disabled>Process image</button>
+          <button id="downloadBtn" class="btn ghost" type="button" disabled>Download file</button>
+          <button id="clearBtn" class="btn text" type="button">Clear</button>
+        </div>
+
+        <p id="status" class="status" role="status" aria-live="polite">Choose an image to start. Processing happens in this browser.</p>
+        <p class="size-line">Original: <strong id="originalSize">—</strong> · Result: <strong id="resultSize">—</strong> <span id="saving" class="saving"></span></p>
+      </div>
+
+      <div class="preview-grid">
+        <article class="preview-card">
+          <h2>Original</h2>
+          <div class="canvas-frame"><canvas id="sourceCanvas" aria-label="Original image preview"></canvas></div>
+        </article>
+        <article class="preview-card">
+          <h2>Result</h2>
+          <div class="canvas-frame"><canvas id="resultCanvas" aria-label="Processed image preview"></canvas></div>
+        </article>
+      </div>
+    </section>
+
+    <noscript><p class="notice">JavaScript is required to process images in your browser.</p></noscript>
+
+    ${adSlot("tool-after-editor")}
+
+    <section class="section">
+      <div class="section-heading"><p class="section-index">How it works</p><h2>Local by design</h2><p>${esc(helpText)}</p></div>
+      <div class="steps horizontal">
+        <div><strong>01</strong><h3>Choose an image</h3><p>The browser reads the selected file into memory.</p></div>
+        <div><strong>02</strong><h3>Process locally</h3><p>Canvas handles the work on your device. No upload request is made.</p></div>
+        <div><strong>03</strong><h3>Save the result</h3><p>Download the new file straight from your browser.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading"><p class="section-index">FAQ</p><h2>${esc(tool.short)} questions</h2></div>
+      <div class="faq-list">${faqHtml(faqs)}</div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading"><p class="section-index">More tools</p><h2>Keep working locally</h2></div>
+      <div class="tool-grid">
+        ${TOOLS.filter((item) => item.path !== tool.path)
+          .slice(0, 4)
+          .map(
+            (item) => `
+          <a class="tool-card" href="${item.path}">
+            <span class="tool-number">${esc(item.short)}</span>
+            <h3>${esc(item.name)}</h3>
+            <p>${esc(item.tagline)}</p>
+            <span class="tool-arrow" aria-hidden="true">→</span>
+          </a>`
+          )
+          .join("")}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading"><p class="section-index">Related guides</p><h2>Learn more</h2></div>
+      <div class="card-grid">${articleCards(ARTICLES.slice(0, 3), 3)}</div>
+    </section>
+  `;
+}
+
 function docsBody() {
   return `
     <section class="page-hero compact">
@@ -657,7 +1114,7 @@ function docsBody() {
     </section>
     <section class="section prose">
       <h2 id="getting-started">Getting started</h2>
-      <p>Open the <a href="/remove-background/">background remover</a>, choose a portrait, and select high accuracy mode. The first edit downloads the model files; later edits use the browser cache.</p>
+      <p>Open the <a href="/remove-background/">background remover</a>, choose a portrait, and run the tool. The first edit downloads the model files; later edits use the browser cache. If the mask looks reversed on an unusual photo, tick the Invert option and run it again.</p>
       <h2 id="supported-files">Supported files</h2>
       <p>The picker accepts JPG, PNG, and WebP files. HEIC files should be converted to PNG or JPEG first because browser support varies by operating system.</p>
       <h2 id="privacy-security">Privacy and security</h2>
@@ -666,8 +1123,8 @@ function docsBody() {
       <p>After the page shell and model files are cached, the core editing flow can work without a network connection. Clearing site storage removes the cache.</p>
       <h2 id="troubleshooting">Troubleshooting</h2>
       <ul>
-        <li><strong>Soft edges:</strong> use high accuracy mode and a photo with a plain background.</li>
-        <li><strong>Subject removed:</strong> try a closer portrait with better contrast.</li>
+        <li><strong>Soft edges:</strong> use a photo with a plain background and even lighting.</li>
+        <li><strong>Reversed result:</strong> tick the Invert option and run the tool again.</li>
         <li><strong>Page feels slow:</strong> close other memory-heavy tabs and use a smaller source image.</li>
       </ul>
     </section>
@@ -830,8 +1287,8 @@ function zhHomeBody() {
     <section class="hero">
       <div class="hero-copy">
         <p class="eyebrow">浏览器本地处理 · 隐私优先</p>
-        <h1>抠图不用上传照片</h1>
-        <p class="lead">Toolorial 在浏览器里运行小型 AI 模型，完成人像抠图并导出透明 PNG。无需注册，没有上传步骤，服务器不保存图片。</p>
+        <h1>图片处理，全部在本地浏览器完成</h1>
+        <p class="lead">压缩、格式转换、调整尺寸、清除 EXIF、人像抠图——所有工具都在你的浏览器里运行，照片不会上传到服务器。无需注册，服务器不保存图片。</p>
         <div class="hero-actions">
           <a class="btn primary" href="/remove-background/">开始抠图</a>
           <a class="btn ghost" href="/docs/">查看说明</a>
@@ -851,7 +1308,18 @@ function zhHomeBody() {
       </div>
     </section>
     <section class="section">
-      <div class="section-heading"><p class="section-index">说明</p><h2>当前模型适合人像和头像</h2><p>商品图和复杂多物体场景不在一期支持范围内。接入广告后，广告脚本可能使用 Cookie，但不会读取你处理的图片像素。</p></div>
+      <div class="section-heading"><p class="section-index">工具</p><h2>五个工具，同一个隐私承诺</h2><p>每个工具都有独立页面，全部在浏览器本地运行。接入广告后，广告脚本可能使用 Cookie，但不会读取你处理的图片像素。</p></div>
+      <div class="tool-grid">
+        ${TOOLS.map(
+          (tool, index) => `
+          <a class="tool-card" href="${tool.path}">
+            <span class="tool-number">${String(index + 1).padStart(2, "0")}</span>
+            <h3>${esc(tool.name)}</h3>
+            <p>${esc(tool.tagline)}</p>
+            <span class="tool-arrow" aria-hidden="true">→</span>
+          </a>`
+        ).join("")}
+      </div>
     </section>
   `;
 }
@@ -913,6 +1381,45 @@ function articleSchema(article) {
   };
 }
 
+const toolkitSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Toolorial browser image tools",
+  description: "A collection of free image utilities that run entirely in the browser.",
+  itemListElement: TOOLS.map((tool, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: tool.name,
+    url: urlFor(tool.path),
+  })),
+};
+
+function toolSchema(tool) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: `Toolorial ${tool.name}`,
+    applicationCategory: "MultimediaApplication",
+    operatingSystem: "Web browser",
+    url: urlFor(tool.path),
+    description: tool.description,
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  };
+}
+
+function toolFaqSchema(tool) {
+  const faqs = TOOL_FAQS_BY_PATH[tool.path] || (tool.path === "/remove-background/" ? TOOL_FAQS : []);
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.a },
+    })),
+  };
+}
+
 function page(path, config) {
   return { path, html: layout({ path, ...config }) };
 }
@@ -923,7 +1430,7 @@ export function buildPages() {
       title: "Toolorial — Private Browser Image Tools",
       description: SITE.description,
       body: homeBody(),
-      schema: [websiteSchema, softwareSchema],
+      schema: [websiteSchema, softwareSchema, toolkitSchema],
       hreflang: true,
     }),
     page("/remove-background/", {
@@ -931,7 +1438,14 @@ export function buildPages() {
       description:
         "Remove portrait backgrounds in your browser with a small local AI model. No upload, no sign-up, transparent PNG export.",
       body: toolBody(),
-      schema: [softwareSchema, faqSchema],
+      schema: [softwareSchema, toolFaqSchema(TOOLS[0])],
+    }),
+    page("/tools/", {
+      title: "Free Private Image Tools | Browser-Based Toolkit | Toolorial",
+      description:
+        "Compress, convert, resize, remove EXIF data, and cut out portraits — five free image tools that run in your browser without uploads.",
+      body: toolsIndexBody(),
+      schema: [websiteSchema, toolkitSchema, faqSchema],
     }),
     page("/docs/", {
       title: "Docs | Toolorial Browser Image Tools",
@@ -988,6 +1502,19 @@ export function buildPages() {
     }),
   ];
 
+  for (const tool of TOOLS.slice(1)) {
+    pages.push(
+      page(tool.path, {
+        title: tool.title,
+        description: tool.metaDescription,
+        body: genericToolBody(tool),
+        schema: [toolSchema(tool), toolFaqSchema(tool)],
+        script: tool.script,
+        dataTool: tool.dataTool,
+      })
+    );
+  }
+
   for (const article of ARTICLES) {
     pages.push(
       page(`/blog/${article.slug}/`, {
@@ -1005,9 +1532,12 @@ export function buildPages() {
 export function sitemapEntries() {
   return buildPages()
     .filter((item) => item.path !== "/404/")
-    .map((item) => ({
-      path: item.path,
-      priority: item.path === "/" ? "1.0" : item.path.startsWith("/blog/") ? "0.6" : "0.8",
-      changefreq: item.path === "/" ? "weekly" : item.path.startsWith("/blog/") ? "monthly" : "yearly",
-    }));
+    .map((item) => {
+      const isTool = item.path === "/tools/" || TOOLS.some((tool) => tool.path === item.path);
+      return {
+        path: item.path,
+        priority: item.path === "/" ? "1.0" : item.path.startsWith("/blog/") ? "0.6" : isTool ? "0.9" : "0.8",
+        changefreq: item.path === "/" ? "weekly" : item.path.startsWith("/blog/") ? "monthly" : isTool ? "monthly" : "yearly",
+      };
+    });
 }

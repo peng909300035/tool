@@ -14,7 +14,7 @@
   const clearBtn = document.getElementById("clearBtn");
   const backgroundMode = document.getElementById("backgroundMode");
   const backgroundColor = document.getElementById("backgroundColor");
-  const accuracyMode = document.getElementById("accuracyMode");
+  const invertToggle = document.getElementById("invertMask");
   const statusEl = document.getElementById("status");
   const loader = document.getElementById("loader");
   const sourceCanvas = document.getElementById("sourceCanvas");
@@ -61,7 +61,7 @@
         },
         runningMode: "IMAGE",
         outputCategoryMask: true,
-        outputConfidenceMasks: false,
+        outputConfidenceMasks: true,
       };
 
       try {
@@ -84,7 +84,87 @@
     }
   }
 
-  function renderResult(mask) {
+  function softmax(value, low, high) {
+    if (value <= low) return 0;
+    if (value >= high) return 1;
+    return (value - low) / (high - low);
+  }
+
+  function buildPersonAlpha(result, width, height) {
+    const closeFns = [];
+    let maskWidth = 0;
+    let maskHeight = 0;
+    let sample;
+
+    const conf = result && result.confidenceMasks;
+    if (conf && conf.length >= 2) {
+      const arrays = [];
+      for (let i = 0; i < conf.length; i += 1) {
+        const image = conf[i];
+        const arr = image.getAsFloat32Array();
+        arrays.push(arr);
+        closeFns.push(() => {
+          try { image.close(); } catch (_) { /* noop */ }
+        });
+      }
+      maskWidth = conf[0].width;
+      maskHeight = conf[0].height;
+
+      const corners = [
+        0,
+        maskWidth - 1,
+        (maskHeight - 1) * maskWidth,
+        maskHeight * maskWidth - 1,
+      ];
+      let sumFirst = 0;
+      let sumSecond = 0;
+      for (const index of corners) {
+        sumFirst += arrays[0][index] || 0;
+        sumSecond += arrays[1][index] || 0;
+      }
+      const personArray = sumFirst > sumSecond ? arrays[1] : arrays[0];
+      sample = (mx, my) => personArray[my * maskWidth + mx] || 0;
+    } else if (result && result.categoryMask) {
+      const mask = result.categoryMask;
+      const data = mask.getAsUint8Array();
+      maskWidth = mask.width;
+      maskHeight = mask.height;
+      closeFns.push(() => {
+        try { mask.close(); } catch (_) { /* noop */ }
+      });
+
+      const corners = [
+        0,
+        maskWidth - 1,
+        (maskHeight - 1) * maskWidth,
+        maskHeight * maskWidth - 1,
+      ];
+      let bgVotes = 0;
+      for (const index of corners) bgVotes += data[index] || 0;
+      const backgroundValue = bgVotes > corners.length * 127 ? 1 : 0;
+      sample = (mx, my) => (data[my * maskWidth + mx] === backgroundValue ? 0 : 1);
+    }
+
+    if (!sample) {
+      closeFns.forEach((fn) => fn());
+      return null;
+    }
+
+    const alpha = new Uint8Array(width * height);
+    for (let y = 0; y < height; y += 1) {
+      const my = Math.min(maskHeight - 1, Math.floor((y / height) * maskHeight));
+      for (let x = 0; x < width; x += 1) {
+        const mx = Math.min(maskWidth - 1, Math.floor((x / width) * maskWidth));
+        const probability = sample(mx, my);
+        alpha[y * width + x] = Math.round(softmax(probability, 0.28, 0.72) * 255);
+      }
+    }
+
+    closeFns.forEach((fn) => fn());
+    return alpha;
+  }
+
+  function renderResult(result) {
     const width = resultCanvas.width;
     const height = resultCanvas.height;
     if (!width || !height) return;
@@ -94,30 +174,21 @@
     const sourceData = sourceCtx.getImageData(0, 0, width, height);
     const resultData = ctx.createImageData(width, height);
 
-    if (mask) {
-      const maskWidth = mask.width;
-      const maskHeight = mask.height;
-      const maskData = mask.getAsUint8Array();
+    const alpha = buildPersonAlpha(result, width, height);
+    const invert = invertToggle ? invertToggle.checked : false;
 
-      for (let y = 0; y < height; y += 1) {
-        const my = Math.min(maskHeight - 1, Math.floor((y / height) * maskHeight));
-        for (let x = 0; x < width; x += 1) {
-          const mx = Math.min(maskWidth - 1, Math.floor((x / width) * maskWidth));
-          const srcIndex = (y * width + x) * 4;
-          const maskValue = maskData[my * maskWidth + mx];
-
-          resultData.data[srcIndex] = sourceData.data[srcIndex];
-          resultData.data[srcIndex + 1] = sourceData.data[srcIndex + 1];
-          resultData.data[srcIndex + 2] = sourceData.data[srcIndex + 2];
-          resultData.data[srcIndex + 3] = maskValue > 0 ? 255 : 0;
-        }
+    if (alpha) {
+      for (let i = 0; i < alpha.length; i += 1) {
+        const srcIndex = i * 4;
+        resultData.data[srcIndex] = sourceData.data[srcIndex];
+        resultData.data[srcIndex + 1] = sourceData.data[srcIndex + 1];
+        resultData.data[srcIndex + 2] = sourceData.data[srcIndex + 2];
+        resultData.data[srcIndex + 3] = invert ? 255 - alpha[i] : alpha[i];
       }
-      ctx.putImageData(resultData, 0, 0);
-      mask.close();
     } else {
-      ctx.clearRect(0, 0, width, height);
-      ctx.drawImage(sourceCanvas, 0, 0, width, height);
+      resultData.data.set(sourceData.data);
     }
+    ctx.putImageData(resultData, 0, 0);
 
     if (backgroundMode && backgroundMode.value === "solid") {
       const color = backgroundColor ? backgroundColor.value : "#2563eb";
@@ -241,9 +312,8 @@
         const model = await getSegmenter();
         setStatus("Processing in your browser…");
         model.segment(sourceCanvas, (result) => {
-          const mask = result.categoryMask;
-          if (mask) {
-            renderResult(mask);
+          if (result && (result.confidenceMasks || result.categoryMask)) {
+            renderResult(result);
           } else {
             setLoading(false);
             setStatus("No subject mask was produced. Try a clearer portrait.");
@@ -252,6 +322,14 @@
       } catch (error) {
         setLoading(false);
         setStatus(`Processing failed: ${error.message || "Please try another image."}`);
+      }
+    });
+  }
+
+  if (invertToggle) {
+    invertToggle.addEventListener("change", () => {
+      if (resultReady && originalImage) {
+        setStatus("Mask inverted. Run the tool again to apply, or download the current result.");
       }
     });
   }

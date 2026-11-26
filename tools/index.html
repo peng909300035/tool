@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Free Private Image Tools | Browser-Based Toolkit | Toolorial</title>
+  <meta name="description" content="Compress, convert, resize, remove EXIF data, and cut out portraits — five free image tools that run in your browser without uploads.">
+  <meta name="theme-color" content="#f6f8fc">
+  <link rel="canonical" href="https://tooloralab.xyz/tools/">
+  
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Toolorial">
+  <meta property="og:title" content="Free Private Image Tools | Browser-Based Toolkit | Toolorial">
+  <meta property="og:description" content="Compress, convert, resize, remove EXIF data, and cut out portraits — five free image tools that run in your browser without uploads.">
+  <meta property="og:url" content="https://tooloralab.xyz/tools/">
+  <meta property="og:image" content="https://tooloralab.xyz/assets/og-cover.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Free Private Image Tools | Browser-Based Toolkit | Toolorial">
+  <meta name="twitter:description" content="Compress, convert, resize, remove EXIF data, and cut out portraits — five free image tools that run in your browser without uploads.">
+  <meta name="twitter:image" content="https://tooloralab.xyz/assets/og-cover.svg">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Toolorial","url":"https://tooloralab.xyz","description":"Private, browser-native image tools. Remove photo backgrounds locally without uploads, accounts, or server storage.","inLanguage":"en"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"ItemList","name":"Toolorial browser image tools","description":"A collection of free image utilities that run entirely in the browser.","itemListElement":[{"@type":"ListItem","position":1,"name":"AI Background Remover","url":"https://tooloralab.xyz/remove-background/"},{"@type":"ListItem","position":2,"name":"Image Compressor","url":"https://tooloralab.xyz/compress-image/"},{"@type":"ListItem","position":3,"name":"Image Converter","url":"https://tooloralab.xyz/convert-image/"},{"@type":"ListItem","position":4,"name":"Image Resizer","url":"https://tooloralab.xyz/resize-image/"},{"@type":"ListItem","position":5,"name":"EXIF Remover","url":"https://tooloralab.xyz/remove-exif/"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does the background remover work?","acceptedAnswer":{"@type":"Answer","text":"The page downloads a small segmentation model to your browser. When you choose a photo, the model draws a subject mask locally and the page applies that mask with Canvas. Your photo is never uploaded to our server."}},{"@type":"Question","name":"Do I need an account?","acceptedAnswer":{"@type":"Answer","text":"No. There is no sign-up, no login, and no upload queue. Choose an image and start processing immediately."}},{"@type":"Question","name":"Does it work offline?","acceptedAnswer":{"@type":"Answer","text":"After the page, script, and model files have been cached by your browser, the core editing flow can continue without a network connection. Clearing site data removes that cache."}},{"@type":"Question","name":"Which images work best?","acceptedAnswer":{"@type":"Answer","text":"Clear portraits, avatars, ID-style photos, and profile pictures work best. The current model is trained primarily for people, so complex product scenes or multiple distant objects may need manual cleanup."}},{"@type":"Question","name":"What formats can I download?","acceptedAnswer":{"@type":"Answer","text":"The result is exported as a PNG. Choose transparent background for an alpha channel, or solid background to flatten the result onto a color of your choice."}},{"@type":"Question","name":"Is there a file size limit?","acceptedAnswer":{"@type":"Answer","text":"There is no server upload limit. For smooth performance, use images below 15 MB. Large images are resized in the browser before segmentation to keep memory use reasonable."}},{"@type":"Question","name":"Is Toolorial free?","acceptedAnswer":{"@type":"Answer","text":"Yes. The browser-based tools are free to use. Advertising may be shown on content pages to support hosting and maintenance."}},{"@type":"Question","name":"Are my photos stored anywhere?","acceptedAnswer":{"@type":"Answer","text":"No. Photos are read from your device into browser memory, processed locally, and exported back to your device. We do not write them to a database, object storage, or analytics system."}},{"@type":"Question","name":"Why is a model downloaded on first use?","acceptedAnswer":{"@type":"Answer","text":"The segmentation model runs in your browser rather than on a server. It is downloaded once and can be cached for later visits."}},{"@type":"Question","name":"Does advertising read my photos?","acceptedAnswer":{"@type":"Answer","text":"No. Ad scripts can set cookies or read standard browser signals for ad delivery, but they do not receive the pixels of images you process in this tool."}},{"@type":"Question","name":"Can I use the result commercially?","acceptedAnswer":{"@type":"Answer","text":"You are responsible for the rights to the source image and for the final use of the exported file. Please review our Terms before publishing results."}}]}</script>
+</head>
+<body class="">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/">Toolorial<span class="brand-dot"></span></a>
+      <nav aria-label="Main"><a href="/tools/" class="nav-cta">Tools</a><a href="/docs/">Docs</a><a href="/blog/">Blog</a><a href="/faq/">FAQ</a><a href="/about/">About</a></nav>
+    </div>
+  </header>
+  <main id="main">
+
+    <section class="page-hero compact">
+      <p class="eyebrow">Toolkit</p>
+      <h1>Private image tools, all in one place</h1>
+      <p class="lead">Five focused utilities that run in your browser. No uploads, no accounts, no server-side copies of your files.</p>
+    </section>
+    <aside class="ad-slot" data-slot="tools-top" aria-label="Advertisement"><span>Advertisement</span></aside>
+    <section class="section">
+      <div class="tool-grid tool-grid-large">
+        
+          <article class="tool-card tool-card-large">
+            <span class="tool-number">01</span>
+            <h2><a href="/remove-background/">AI Background Remover</a></h2>
+            <p>Remove the background from portraits and avatars in your browser. No upload, no sign-up, transparent PNG export.</p>
+            <a class="text-link" href="/remove-background/">Open tool →</a>
+          </article>
+          <article class="tool-card tool-card-large">
+            <span class="tool-number">02</span>
+            <h2><a href="/compress-image/">Image Compressor</a></h2>
+            <p>Compress JPG, PNG, and WebP images in your browser. Adjust quality and compare file sizes before you download.</p>
+            <a class="text-link" href="/compress-image/">Open tool →</a>
+          </article>
+          <article class="tool-card tool-card-large">
+            <span class="tool-number">03</span>
+            <h2><a href="/convert-image/">Image Converter</a></h2>
+            <p>Convert images between PNG, JPG, and WebP entirely in your browser. Keep your original file on your device.</p>
+            <a class="text-link" href="/convert-image/">Open tool →</a>
+          </article>
+          <article class="tool-card tool-card-large">
+            <span class="tool-number">04</span>
+            <h2><a href="/resize-image/">Image Resizer</a></h2>
+            <p>Resize images by pixels, percentage, or a preset for social platforms. Everything happens locally in the browser.</p>
+            <a class="text-link" href="/resize-image/">Open tool →</a>
+          </article>
+          <article class="tool-card tool-card-large">
+            <span class="tool-number">05</span>
+            <h2><a href="/remove-exif/">EXIF Remover</a></h2>
+            <p>Remove EXIF metadata from photos in your browser. The export is rebuilt from pixels, so location and device tags are left behind.</p>
+            <a class="text-link" href="/remove-exif/">Open tool →</a>
+          </article>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-heading"><p class="section-index">How it works</p><h2>The same privacy model everywhere</h2></div>
+      <div class="steps horizontal">
+        <div><strong>01</strong><h3>Open a tool</h3><p>Each utility has its own page, so you only load what you need.</p></div>
+        <div><strong>02</strong><h3>Drop your file</h3><p>The browser reads the image into memory. Nothing is uploaded.</p></div>
+        <div><strong>03</strong><h3>Download locally</h3><p>The result is generated on your device and saved straight to it.</p></div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-heading"><p class="section-index">FAQ</p><h2>Common questions</h2></div>
+      <div class="faq-list">
+        <details class="faq-item" open>
+          <summary>Is Toolorial free?</summary>
+          <p>Yes. The browser-based tools are free to use. Advertising may be shown on content pages to support hosting and maintenance.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Are my photos stored anywhere?</summary>
+          <p>No. Photos are read from your device into browser memory, processed locally, and exported back to your device. We do not write them to a database, object storage, or analytics system.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Why is a model downloaded on first use?</summary>
+          <p>The segmentation model runs in your browser rather than on a server. It is downloaded once and can be cached for later visits.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does advertising read my photos?</summary>
+          <p>No. Ad scripts can set cookies or read standard browser signals for ad delivery, but they do not receive the pixels of images you process in this tool.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I use the result commercially?</summary>
+          <p>You are responsible for the rights to the source image and for the final use of the exported file. Please review our Terms before publishing results.</p>
+        </details></div>
+    </section>
+  
+  </main>
+  
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          <a class="brand" href="/">Toolorial</a>
+          <p>Private, browser-native image tools.</p>
+        </div>
+        <nav aria-label="Footer">
+          <a href="/tools/">All tools</a>
+          <a href="/remove-background/">Remove BG</a>
+          <a href="/compress-image/">Compress</a>
+          <a href="/convert-image/">Convert</a>
+          <a href="/resize-image/">Resize</a>
+          <a href="/remove-exif/">Remove EXIF</a>
+          <a href="/docs/">Docs</a>
+          <a href="/blog/">Blog</a>
+          <a href="/faq/">FAQ</a>
+          <a href="/about/">About</a>
+          <a href="/contact/">Contact</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="/terms/">Terms</a>
+        </nav>
+      </div>
+      <p class="footer-note">Images are processed in your browser. Advertising may use cookies on content pages.</p>
+    </footer>
+  
+  <script src="/app.js" defer></script>
+</body>
+</html>

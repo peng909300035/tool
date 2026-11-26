@@ -22,14 +22,14 @@
   <link rel="manifest" href="/manifest.json">
   <link rel="stylesheet" href="/styles.css">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Toolorial AI Background Remover","applicationCategory":"MultimediaApplication","operatingSystem":"Web browser","url":"https://tooloralab.xyz/remove-background/","description":"Browser-native portrait background remover. Images are processed locally and exported as transparent PNG files.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does the background remover work?","acceptedAnswer":{"@type":"Answer","text":"The page downloads a small segmentation model to your browser. When you choose a photo, the model draws a subject mask locally and the page applies that mask with Canvas. Your photo is never uploaded to our server."}},{"@type":"Question","name":"Do I need an account?","acceptedAnswer":{"@type":"Answer","text":"No. There is no sign-up, no login, and no upload queue. Choose an image and start processing immediately."}},{"@type":"Question","name":"Does it work offline?","acceptedAnswer":{"@type":"Answer","text":"After the page, script, and model files have been cached by your browser, the core editing flow can continue without a network connection. Clearing site data removes that cache."}},{"@type":"Question","name":"Which images work best?","acceptedAnswer":{"@type":"Answer","text":"Clear portraits, avatars, ID-style photos, and profile pictures work best. The current model is trained primarily for people, so complex product scenes or multiple distant objects may need manual cleanup."}},{"@type":"Question","name":"What formats can I download?","acceptedAnswer":{"@type":"Answer","text":"The result is exported as a PNG. Choose transparent background for an alpha channel, or solid background to flatten the result onto a color of your choice."}},{"@type":"Question","name":"Is there a file size limit?","acceptedAnswer":{"@type":"Answer","text":"There is no server upload limit. For smooth performance, use images below 15 MB. Large images are resized in the browser before segmentation to keep memory use reasonable."}},{"@type":"Question","name":"Is Toolorial free?","acceptedAnswer":{"@type":"Answer","text":"Yes. The browser-based tools are free to use. Advertising may be shown on content pages to support hosting and maintenance."}},{"@type":"Question","name":"Are my photos stored anywhere?","acceptedAnswer":{"@type":"Answer","text":"No. Photos are read from your device into browser memory, processed locally, and exported back to your device. We do not write them to a database, object storage, or analytics system."}},{"@type":"Question","name":"Why is a model downloaded on first use?","acceptedAnswer":{"@type":"Answer","text":"The segmentation model runs in your browser rather than on a server. It is downloaded once and can be cached for later visits."}},{"@type":"Question","name":"Does advertising read my photos?","acceptedAnswer":{"@type":"Answer","text":"No. Ad scripts can set cookies or read standard browser signals for ad delivery, but they do not receive the pixels of images you process in this tool."}},{"@type":"Question","name":"Can I use the result commercially?","acceptedAnswer":{"@type":"Answer","text":"You are responsible for the rights to the source image and for the final use of the exported file. Please review our Terms before publishing results."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does the background remover work?","acceptedAnswer":{"@type":"Answer","text":"The page downloads a small segmentation model to your browser. When you choose a photo, the model draws a subject mask locally and the page applies that mask with Canvas. Your photo is never uploaded to our server."}},{"@type":"Question","name":"Do I need an account?","acceptedAnswer":{"@type":"Answer","text":"No. There is no sign-up, no login, and no upload queue. Choose an image and start processing immediately."}},{"@type":"Question","name":"Does it work offline?","acceptedAnswer":{"@type":"Answer","text":"After the page, script, and model files have been cached by your browser, the core editing flow can continue without a network connection. Clearing site data removes that cache."}},{"@type":"Question","name":"Which images work best?","acceptedAnswer":{"@type":"Answer","text":"Clear portraits, avatars, ID-style photos, and profile pictures work best. The current model is trained primarily for people, so complex product scenes or multiple distant objects may need manual cleanup."}},{"@type":"Question","name":"What formats can I download?","acceptedAnswer":{"@type":"Answer","text":"The result is exported as a PNG. Choose transparent background for an alpha channel, or solid background to flatten the result onto a color of your choice."}},{"@type":"Question","name":"Is there a file size limit?","acceptedAnswer":{"@type":"Answer","text":"There is no server upload limit. For smooth performance, use images below 15 MB. Large images are resized in the browser before segmentation to keep memory use reasonable."}}]}</script>
 </head>
 <body class="">
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="header-inner">
       <a class="brand" href="/">Toolorial<span class="brand-dot"></span></a>
-      <nav aria-label="Main"><a href="/remove-background/" class="nav-cta">Remove BG</a><a href="/docs/">Docs</a><a href="/blog/">Blog</a><a href="/faq/">FAQ</a><a href="/about/">About</a></nav>
+      <nav aria-label="Main"><a href="/tools/" class="nav-cta">Tools</a><a href="/docs/">Docs</a><a href="/blog/">Blog</a><a href="/faq/">FAQ</a><a href="/about/">About</a></nav>
     </div>
   </header>
   <main id="main">
@@ -58,12 +58,9 @@
           <label class="field"><span>Color</span>
             <input id="backgroundColor" type="color" value="#2563eb">
           </label>
-          <label class="field"><span>Mode</span>
-            <select id="accuracyMode">
-              <option value="fast">Fast</option>
-              <option value="accurate" selected>High accuracy</option>
-            </select>
-          </label>
+          <div class="field"><span>Mask direction</span>
+            <label class="checkbox-line"><input id="invertMask" type="checkbox"> Invert if the result looks reversed</label>
+          </div>
         </div>
 
         <div class="button-row">
@@ -134,19 +131,19 @@
       <div class="section-heading"><p class="section-index">Related guides</p><h2>Learn more</h2></div>
       <div class="card-grid">
         <article class="card post-card">
-          <p class="card-meta">Privacy · 2026-11-20</p>
-          <h3><a href="/blog/remove-background-without-uploading/">How to remove an image background without uploading it</a></h3>
-          <p>A practical guide to browser-based background removal: what runs locally, what still leaves the device, and how to get a clean transparent PNG.</p>
+          <p class="card-meta">How-to · 2026-11-26</p>
+          <h3><a href="/blog/compress-images-without-uploading/">How to compress images without uploading them</a></h3>
+          <p>A practical guide to browser-based image compression: quality settings, format choices, and how to shrink files without a private photo leaving your device.</p>
         </article>
         <article class="card post-card">
-          <p class="card-meta">AI · 2026-11-18</p>
-          <h3><a href="/blog/browser-ai-vs-cloud-ai-image-editing/">Browser AI vs cloud AI for image editing</a></h3>
-          <p>Compare latency, privacy, cost, and output quality when choosing between local browser models and cloud inference.</p>
+          <p class="card-meta">Formats · 2026-11-24</p>
+          <h3><a href="/blog/png-to-jpg-or-webp-which-format-to-choose/">PNG to JPG or WebP: which format should you choose?</a></h3>
+          <p>When to keep PNG, when to switch to JPG, and where WebP wins — plus how to convert images locally without uploading them.</p>
         </article>
         <article class="card post-card">
-          <p class="card-meta">How-to · 2026-11-15</p>
-          <h3><a href="/blog/transparent-png-for-profile-photos/">Create a transparent PNG for profile photos</a></h3>
-          <p>How to export a clean cutout, choose the right canvas size, and avoid halos around hair and shoulders.</p>
+          <p class="card-meta">Privacy · 2026-11-22</p>
+          <h3><a href="/blog/how-to-remove-exif-data-from-a-photo/">How to remove EXIF data from a photo</a></h3>
+          <p>What EXIF metadata contains, why it can be sensitive, and a local method for stripping it before you share an image.</p>
         </article></div>
     </section>
   
@@ -159,7 +156,12 @@
           <p>Private, browser-native image tools.</p>
         </div>
         <nav aria-label="Footer">
+          <a href="/tools/">All tools</a>
           <a href="/remove-background/">Remove BG</a>
+          <a href="/compress-image/">Compress</a>
+          <a href="/convert-image/">Convert</a>
+          <a href="/resize-image/">Resize</a>
+          <a href="/remove-exif/">Remove EXIF</a>
           <a href="/docs/">Docs</a>
           <a href="/blog/">Blog</a>
           <a href="/faq/">FAQ</a>

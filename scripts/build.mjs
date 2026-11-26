@@ -1,7 +1,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { SITE, buildPages, sitemapEntries } from "../src/site/content.mjs";
+import { SITE, TOOLS, buildPages, sitemapEntries } from "../src/site/content.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dist = path.join(root, "dist");
@@ -82,6 +82,9 @@ https://:version.:subdomain.workers.dev/*
 
 /app.js
   Cache-Control: public, max-age=86400
+
+/tools.js
+  Cache-Control: public, max-age=86400
 `;
 
 const redirectsTxt = `/remove-bg  /remove-background/  301
@@ -100,7 +103,8 @@ const llmsTxt = `# ${SITE.name}
 ${SITE.description}
 
 - Homepage: ${SITE.origin}/
-- Background remover: ${SITE.origin}/remove-background/
+- All tools: ${SITE.origin}/tools/
+${TOOLS.map((tool) => `- ${tool.name}: ${SITE.origin}${tool.path}`).join("\n")}
 - Privacy policy: ${SITE.origin}/privacy/
 - Docs: ${SITE.origin}/docs/
 
@@ -122,6 +126,7 @@ async function main() {
   await copyDir(publicDir, dist);
 
   await fs.copyFile(path.join(root, "app.js"), path.join(dist, "app.js"));
+  await fs.copyFile(path.join(root, "tools.js"), path.join(dist, "tools.js"));
   await fs.copyFile(path.join(root, "styles.css"), path.join(dist, "styles.css"));
 
   await fs.writeFile(path.join(dist, "robots.txt"), robotsTxt, "utf8");

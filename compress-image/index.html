@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Compress Image Online Without Uploading | Toolorial</title>
+  <meta name="description" content="Compress JPG, PNG and WebP images locally in your browser. No upload, no account, instant download.">
+  <meta name="theme-color" content="#f6f8fc">
+  <link rel="canonical" href="https://tooloralab.xyz/compress-image/">
+  
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Toolorial">
+  <meta property="og:title" content="Compress Image Online Without Uploading | Toolorial">
+  <meta property="og:description" content="Compress JPG, PNG and WebP images locally in your browser. No upload, no account, instant download.">
+  <meta property="og:url" content="https://tooloralab.xyz/compress-image/">
+  <meta property="og:image" content="https://tooloralab.xyz/assets/og-cover.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Compress Image Online Without Uploading | Toolorial">
+  <meta name="twitter:description" content="Compress JPG, PNG and WebP images locally in your browser. No upload, no account, instant download.">
+  <meta name="twitter:image" content="https://tooloralab.xyz/assets/og-cover.svg">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Toolorial Image Compressor","applicationCategory":"MultimediaApplication","operatingSystem":"Web browser","url":"https://tooloralab.xyz/compress-image/","description":"Compress JPG, PNG, and WebP images in your browser. Adjust quality and compare file sizes before you download.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does compressing an image reduce quality?","acceptedAnswer":{"@type":"Answer","text":"JPG and WebP are lossy formats, so lowering quality removes some detail. Start around 80 percent and preview the result. PNG is lossless and will usually get larger instead of smaller."}},{"@type":"Question","name":"Which output format should I choose?","acceptedAnswer":{"@type":"Answer","text":"Use JPG for ordinary photos, WebP for smaller web images, and PNG only when you need lossless pixels or transparency."}},{"@type":"Question","name":"Is my image uploaded anywhere?","acceptedAnswer":{"@type":"Answer","text":"No. Compression runs through the Canvas API in your browser. The file is read into memory, processed, and exported back to your device."}},{"@type":"Question","name":"Why did my PNG get bigger?","acceptedAnswer":{"@type":"Answer","text":"PNG stores pixels losslessly, so re-encoding a photo as PNG often increases file size. Choose JPG or WebP for photographs."}}]}</script>
+</head>
+<body class="" data-tool="compress">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/">Toolorial<span class="brand-dot"></span></a>
+      <nav aria-label="Main"><a href="/tools/" class="nav-cta">Tools</a><a href="/docs/">Docs</a><a href="/blog/">Blog</a><a href="/faq/">FAQ</a><a href="/about/">About</a></nav>
+    </div>
+  </header>
+  <main id="main">
+
+    <section class="page-hero compact">
+      <p class="eyebrow">Free · Private · No watermark</p>
+      <h1>Image Compressor</h1>
+      <p class="lead">Compress JPG, PNG, and WebP images in your browser. Adjust quality and compare file sizes before you download.</p>
+    </section>
+
+    <section class="tool-layout">
+      <div class="tool-panel">
+        <div id="dropZone" class="drop-zone" tabindex="0" role="button" aria-label="Choose or drop an image">
+          <strong>Drop an image here</strong>
+          <span>or click to choose a JPG, PNG, or WebP file</span>
+          <input id="imageUpload" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+        </div>
+
+        <div class="control-row">
+      <label class="field"><span>Output format</span>
+        <select id="outputFormat">
+          <option value="image/jpeg">JPG</option>
+          <option value="image/webp">WebP</option>
+          <option value="image/png">PNG (lossless)</option>
+        </select>
+      </label>
+      <label class="field"><span>Quality (JPG / WebP)</span>
+        <input id="qualityRange" type="range" min="10" max="100" value="82">
+      </label>
+    </div>
+
+        <div class="button-row">
+          <button id="processBtn" class="btn primary" type="button" disabled>Process image</button>
+          <button id="downloadBtn" class="btn ghost" type="button" disabled>Download file</button>
+          <button id="clearBtn" class="btn text" type="button">Clear</button>
+        </div>
+
+        <p id="status" class="status" role="status" aria-live="polite">Choose an image to start. Processing happens in this browser.</p>
+        <p class="size-line">Original: <strong id="originalSize">—</strong> · Result: <strong id="resultSize">—</strong> <span id="saving" class="saving"></span></p>
+      </div>
+
+      <div class="preview-grid">
+        <article class="preview-card">
+          <h2>Original</h2>
+          <div class="canvas-frame"><canvas id="sourceCanvas" aria-label="Original image preview"></canvas></div>
+        </article>
+        <article class="preview-card">
+          <h2>Result</h2>
+          <div class="canvas-frame"><canvas id="resultCanvas" aria-label="Processed image preview"></canvas></div>
+        </article>
+      </div>
+    </section>
+
+    <noscript><p class="notice">JavaScript is required to process images in your browser.</p></noscript>
+
+    <aside class="ad-slot" data-slot="tool-after-editor" aria-label="Advertisement"><span>Advertisement</span></aside>
+
+    <section class="section">
+      <div class="section-heading"><p class="section-index">How it works</p><h2>Local by design</h2><p>Preview the result and compare file sizes before downloading.</p></div>
+      <div class="steps horizontal">
+        <div><strong>01</strong><h3>Choose an image</h3><p>The browser reads the selected file into memory.</p></div>
+        <div><strong>02</strong><h3>Process locally</h3><p>Canvas handles the work on your device. No upload request is made.</p></div>
+        <div><strong>03</strong><h3>Save the result</h3><p>Download the new file straight from your browser.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading"><p class="section-index">FAQ</p><h2>Compress questions</h2></div>
+      <div class="faq-list">
+        <details class="faq-item" open>
+          <summary>Does compressing an image reduce quality?</summary>
+          <p>JPG and WebP are lossy formats, so lowering quality removes some detail. Start around 80 percent and preview the result. PNG is lossless and will usually get larger instead of smaller.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Which output format should I choose?</summary>
+          <p>Use JPG for ordinary photos, WebP for smaller web images, and PNG only when you need lossless pixels or transparency.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is my image uploaded anywhere?</summary>
+          <p>No. Compression runs through the Canvas API in your browser. The file is read into memory, processed, and exported back to your device.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Why did my PNG get bigger?</summary>
+          <p>PNG stores pixels losslessly, so re-encoding a photo as PNG often increases file size. Choose JPG or WebP for photographs.</p>
+        </details></div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading"><p class="section-index">More tools</p><h2>Keep working locally</h2></div>
+      <div class="tool-grid">
+        
+          <a class="tool-card" href="/remove-background/">
+            <span class="tool-number">Remove BG</span>
+            <h3>AI Background Remover</h3>
+            <p>Cut out portraits locally</p>
+            <span class="tool-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="tool-card" href="/convert-image/">
+            <span class="tool-number">Convert</span>
+            <h3>Image Converter</h3>
+            <p>PNG, JPG and WebP in one place</p>
+            <span class="tool-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="tool-card" href="/resize-image/">
+            <span class="tool-number">Resize</span>
+            <h3>Image Resizer</h3>
+            <p>Fit any platform size</p>
+            <span class="tool-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="tool-card" href="/remove-exif/">
+            <span class="tool-number">Remove EXIF</span>
+            <h3>EXIF Remover</h3>
+            <p>Strip hidden metadata</p>
+            <span class="tool-arrow" aria-hidden="true">→</span>
+          </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading"><p class="section-index">Related guides</p><h2>Learn more</h2></div>
+      <div class="card-grid">
+        <article class="card post-card">
+          <p class="card-meta">How-to · 2026-11-26</p>
+          <h3><a href="/blog/compress-images-without-uploading/">How to compress images without uploading them</a></h3>
+          <p>A practical guide to browser-based image compression: quality settings, format choices, and how to shrink files without a private photo leaving your device.</p>
+        </article>
+        <article class="card post-card">
+          <p class="card-meta">Formats · 2026-11-24</p>
+          <h3><a href="/blog/png-to-jpg-or-webp-which-format-to-choose/">PNG to JPG or WebP: which format should you choose?</a></h3>
+          <p>When to keep PNG, when to switch to JPG, and where WebP wins — plus how to convert images locally without uploading them.</p>
+        </article>
+        <article class="card post-card">
+          <p class="card-meta">Privacy · 2026-11-22</p>
+          <h3><a href="/blog/how-to-remove-exif-data-from-a-photo/">How to remove EXIF data from a photo</a></h3>
+          <p>What EXIF metadata contains, why it can be sensitive, and a local method for stripping it before you share an image.</p>
+        </article></div>
+    </section>
+  
+  </main>
+  
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          <a class="brand" href="/">Toolorial</a>
+          <p>Private, browser-native image tools.</p>
+        </div>
+        <nav aria-label="Footer">
+          <a href="/tools/">All tools</a>
+          <a href="/remove-background/">Remove BG</a>
+          <a href="/compress-image/">Compress</a>
+          <a href="/convert-image/">Convert</a>
+          <a href="/resize-image/">Resize</a>
+          <a href="/remove-exif/">Remove EXIF</a>
+          <a href="/docs/">Docs</a>
+          <a href="/blog/">Blog</a>
+          <a href="/faq/">FAQ</a>
+          <a href="/about/">About</a>
+          <a href="/contact/">Contact</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="/terms/">Terms</a>
+        </nav>
+      </div>
+      <p class="footer-note">Images are processed in your browser. Advertising may use cookies on content pages.</p>
+    </footer>
+  
+  <script src="/tools.js" defer></script>
+</body>
+</html>

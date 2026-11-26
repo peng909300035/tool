@@ -17,3 +17,6 @@ https://:version.:subdomain.workers.dev/*
 
 /app.js
   Cache-Control: public, max-age=86400
+
+/tools.js
+  Cache-Control: public, max-age=86400

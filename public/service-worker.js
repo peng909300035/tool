@@ -1,9 +1,10 @@
-const CACHE_NAME = "toolorial-cache-v4";
+const CACHE_NAME = "toolorial-cache-v5";
 
 const CORE_ASSETS = [
   "/",
   "/styles.css",
   "/app.js",
+  "/tools.js",
   "/manifest.json",
   "/vendor/tasks-vision/vision_bundle.mjs",
   "/vendor/tasks-vision/selfie_segmenter.tflite",
@@ -40,6 +41,7 @@ self.addEventListener("fetch", (event) => {
     url.pathname.startsWith("/vendor/") ||
     url.pathname === "/styles.css" ||
     url.pathname === "/app.js" ||
+    url.pathname === "/tools.js" ||
     url.pathname === "/manifest.json";
 
   if (isAsset) {

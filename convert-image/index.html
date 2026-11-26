@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Convert PNG to JPG or WebP Without Uploading | Toolorial</title>
+  <meta name="description" content="Convert images between PNG, JPG and WebP locally in your browser. No upload, no account, original file stays on your device.">
+  <meta name="theme-color" content="#f6f8fc">
+  <link rel="canonical" href="https://tooloralab.xyz/convert-image/">
+  
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Toolorial">
+  <meta property="og:title" content="Convert PNG to JPG or WebP Without Uploading | Toolorial">
+  <meta property="og:description" content="Convert images between PNG, JPG and WebP locally in your browser. No upload, no account, original file stays on your device.">
+  <meta property="og:url" content="https://tooloralab.xyz/convert-image/">
+  <meta property="og:image" content="https://tooloralab.xyz/assets/og-cover.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Convert PNG to JPG or WebP Without Uploading | Toolorial">
+  <meta name="twitter:description" content="Convert images between PNG, JPG and WebP locally in your browser. No upload, no account, original file stays on your device.">
+  <meta name="twitter:image" content="https://tooloralab.xyz/assets/og-cover.svg">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Toolorial Image Converter","applicationCategory":"MultimediaApplication","operatingSystem":"Web browser","url":"https://tooloralab.xyz/convert-image/","description":"Convert images between PNG, JPG, and WebP entirely in your browser. Keep your original file on your device.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Which formats can I convert between?","acceptedAnswer":{"@type":"Answer","text":"The converter handles PNG, JPG, and WebP. All three are supported natively by modern browsers, so conversion happens locally."}},{"@type":"Question","name":"Will conversion keep transparency?","acceptedAnswer":{"@type":"Answer","text":"PNG and WebP can store an alpha channel. JPG cannot, so transparent areas are flattened onto white when you convert to JPG."}},{"@type":"Question","name":"Does conversion remove EXIF data?","acceptedAnswer":{"@type":"Answer","text":"Yes. The export is rebuilt from canvas pixels, so metadata from the original file is not carried into the new image."}},{"@type":"Question","name":"Is there a file size limit?","acceptedAnswer":{"@type":"Answer","text":"There is no server upload limit because nothing is uploaded. Very large images are limited only by your device memory."}}]}</script>
+</head>
+<body class="" data-tool="convert">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/">Toolorial<span class="brand-dot"></span></a>
+      <nav aria-label="Main"><a href="/tools/" class="nav-cta">Tools</a><a href="/docs/">Docs</a><a href="/blog/">Blog</a><a href="/faq/">FAQ</a><a href="/about/">About</a></nav>
+    </div>
+  </header>
+  <main id="main">
+
+    <section class="page-hero compact">
+      <p class="eyebrow">Free · Private · No watermark</p>
+      <h1>Image Converter</h1>
+      <p class="lead">Convert images between PNG, JPG, and WebP entirely in your browser. Keep your original file on your device.</p>
+    </section>
+
+    <section class="tool-layout">
+      <div class="tool-panel">
+        <div id="dropZone" class="drop-zone" tabindex="0" role="button" aria-label="Choose or drop an image">
+          <strong>Drop an image here</strong>
+          <span>or click to choose a JPG, PNG, or WebP file</span>
+          <input id="imageUpload" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+        </div>
+
+        <div class="control-row">
+      <label class="field"><span>Convert to</span>
+        <select id="outputFormat">
+          <option value="image/png">PNG</option>
+          <option value="image/jpeg">JPG</option>
+          <option value="image/webp">WebP</option>
+        </select>
+      </label>
+      <label class="field"><span>Quality (JPG / WebP)</span>
+        <input id="qualityRange" type="range" min="10" max="100" value="90">
+      </label>
+    </div>
+
+        <div class="button-row">
+          <button id="processBtn" class="btn primary" type="button" disabled>Process image</button>
+          <button id="downloadBtn" class="btn ghost" type="button" disabled>Download file</button>
+          <button id="clearBtn" class="btn text" type="button">Clear</button>
+        </div>
+
+        <p id="status" class="status" role="status" aria-live="polite">Choose an image to start. Processing happens in this browser.</p>
+        <p class="size-line">Original: <strong id="originalSize">—</strong> · Result: <strong id="resultSize">—</strong> <span id="saving" class="saving"></span></p>
+      </div>
+
+      <div class="preview-grid">
+        <article class="preview-card">
+          <h2>Original</h2>
+          <div class="canvas-frame"><canvas id="sourceCanvas" aria-label="Original image preview"></canvas></div>
+        </article>
+        <article class="preview-card">
+          <h2>Result</h2>
+          <div class="canvas-frame"><canvas id="resultCanvas" aria-label="Processed image preview"></canvas></div>
+        </article>
+      </div>
+    </section>
+
+    <noscript><p class="notice">JavaScript is required to process images in your browser.</p></noscript>
+
+    <aside class="ad-slot" data-slot="tool-after-editor" aria-label="Advertisement"><span>Advertisement</span></aside>
+
+    <section class="section">
+      <div class="section-heading"><p class="section-index">How it works</p><h2>Local by design</h2><p>Preview the result and compare file sizes before downloading.</p></div>
+      <div class="steps horizontal">
+        <div><strong>01</strong><h3>Choose an image</h3><p>The browser reads the selected file into memory.</p></div>
+        <div><strong>02</strong><h3>Process locally</h3><p>Canvas handles the work on your device. No upload request is made.</p></div>
+        <div><strong>03</strong><h3>Save the result</h3><p>Download the new file straight from your browser.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading"><p class="section-index">FAQ</p><h2>Convert questions</h2></div>
+      <div class="faq-list">
+        <details class="faq-item" open>
+          <summary>Which formats can I convert between?</summary>
+          <p>The converter handles PNG, JPG, and WebP. All three are supported natively by modern browsers, so conversion happens locally.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Will conversion keep transparency?</summary>
+          <p>PNG and WebP can store an alpha channel. JPG cannot, so transparent areas are flattened onto white when you convert to JPG.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does conversion remove EXIF data?</summary>
+          <p>Yes. The export is rebuilt from canvas pixels, so metadata from the original file is not carried into the new image.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is there a file size limit?</summary>
+          <p>There is no server upload limit because nothing is uploaded. Very large images are limited only by your device memory.</p>
+        </details></div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading"><p class="section-index">More tools</p><h2>Keep working locally</h2></div>
+      <div class="tool-grid">
+        
+          <a class="tool-card" href="/remove-background/">
+            <span class="tool-number">Remove BG</span>
+            <h3>AI Background Remover</h3>
+            <p>Cut out portraits locally</p>
+            <span class="tool-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="tool-card" href="/compress-image/">
+            <span class="tool-number">Compress</span>
+            <h3>Image Compressor</h3>
+            <p>Shrink files, keep quality</p>
+            <span class="tool-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="tool-card" href="/resize-image/">
+            <span class="tool-number">Resize</span>
+            <h3>Image Resizer</h3>
+            <p>Fit any platform size</p>
+            <span class="tool-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="tool-card" href="/remove-exif/">
+            <span class="tool-number">Remove EXIF</span>
+            <h3>EXIF Remover</h3>
+            <p>Strip hidden metadata</p>
+            <span class="tool-arrow" aria-hidden="true">→</span>
+          </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading"><p class="section-index">Related guides</p><h2>Learn more</h2></div>
+      <div class="card-grid">
+        <article class="card post-card">
+          <p class="card-meta">How-to · 2026-11-26</p>
+          <h3><a href="/blog/compress-images-without-uploading/">How to compress images without uploading them</a></h3>
+          <p>A practical guide to browser-based image compression: quality settings, format choices, and how to shrink files without a private photo leaving your device.</p>
+        </article>
+        <article class="card post-card">
+          <p class="card-meta">Formats · 2026-11-24</p>
+          <h3><a href="/blog/png-to-jpg-or-webp-which-format-to-choose/">PNG to JPG or WebP: which format should you choose?</a></h3>
+          <p>When to keep PNG, when to switch to JPG, and where WebP wins — plus how to convert images locally without uploading them.</p>
+        </article>
+        <article class="card post-card">
+          <p class="card-meta">Privacy · 2026-11-22</p>
+          <h3><a href="/blog/how-to-remove-exif-data-from-a-photo/">How to remove EXIF data from a photo</a></h3>
+          <p>What EXIF metadata contains, why it can be sensitive, and a local method for stripping it before you share an image.</p>
+        </article></div>
+    </section>
+  
+  </main>
+  
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          <a class="brand" href="/">Toolorial</a>
+          <p>Private, browser-native image tools.</p>
+        </div>
+        <nav aria-label="Footer">
+          <a href="/tools/">All tools</a>
+          <a href="/remove-background/">Remove BG</a>
+          <a href="/compress-image/">Compress</a>
+          <a href="/convert-image/">Convert</a>
+          <a href="/resize-image/">Resize</a>
+          <a href="/remove-exif/">Remove EXIF</a>
+          <a href="/docs/">Docs</a>
+          <a href="/blog/">Blog</a>
+          <a href="/faq/">FAQ</a>
+          <a href="/about/">About</a>
+          <a href="/contact/">Contact</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="/terms/">Terms</a>
+        </nav>
+      </div>
+      <p class="footer-note">Images are processed in your browser. Advertising may use cookies on content pages.</p>
+    </footer>
+  
+  <script src="/tools.js" defer></script>
+</body>
+</html>

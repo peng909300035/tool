@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Remove EXIF Data From Photos Without Uploading | Toolorial</title>
+  <meta name="description" content="Strip EXIF location and camera metadata from JPG, PNG and WebP photos locally in your browser. No upload, no account.">
+  <meta name="theme-color" content="#f6f8fc">
+  <link rel="canonical" href="https://tooloralab.xyz/remove-exif/">
+  
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Toolorial">
+  <meta property="og:title" content="Remove EXIF Data From Photos Without Uploading | Toolorial">
+  <meta property="og:description" content="Strip EXIF location and camera metadata from JPG, PNG and WebP photos locally in your browser. No upload, no account.">
+  <meta property="og:url" content="https://tooloralab.xyz/remove-exif/">
+  <meta property="og:image" content="https://tooloralab.xyz/assets/og-cover.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Remove EXIF Data From Photos Without Uploading | Toolorial">
+  <meta name="twitter:description" content="Strip EXIF location and camera metadata from JPG, PNG and WebP photos locally in your browser. No upload, no account.">
+  <meta name="twitter:image" content="https://tooloralab.xyz/assets/og-cover.svg">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Toolorial EXIF Remover","applicationCategory":"MultimediaApplication","operatingSystem":"Web browser","url":"https://tooloralab.xyz/remove-exif/","description":"Remove EXIF metadata from photos in your browser. The export is rebuilt from pixels, so location and device tags are left behind.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is EXIF data?","acceptedAnswer":{"@type":"Answer","text":"EXIF is metadata stored inside image files. It can include camera model, timestamps, lens settings, and sometimes GPS coordinates."}},{"@type":"Question","name":"Does this remove every metadata field?","acceptedAnswer":{"@type":"Answer","text":"The export is generated from decoded pixels, which strips the original metadata blocks. Open the result in a metadata viewer if you need to verify a specific field."}},{"@type":"Question","name":"Does removing EXIF change the picture?","acceptedAnswer":{"@type":"Answer","text":"PNG output is lossless. If you choose JPG or WebP, the image is re-encoded at your chosen quality, so keep quality high for best results."}},{"@type":"Question","name":"Why should I remove EXIF before sharing?","acceptedAnswer":{"@type":"Answer","text":"Location and device details can reveal a home address, workplace, or routine when several photos are published together."}}]}</script>
+</head>
+<body class="" data-tool="exif">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/">Toolorial<span class="brand-dot"></span></a>
+      <nav aria-label="Main"><a href="/tools/" class="nav-cta">Tools</a><a href="/docs/">Docs</a><a href="/blog/">Blog</a><a href="/faq/">FAQ</a><a href="/about/">About</a></nav>
+    </div>
+  </header>
+  <main id="main">
+
+    <section class="page-hero compact">
+      <p class="eyebrow">Free · Private · No watermark</p>
+      <h1>EXIF Remover</h1>
+      <p class="lead">Remove EXIF metadata from photos in your browser. The export is rebuilt from pixels, so location and device tags are left behind.</p>
+    </section>
+
+    <section class="tool-layout">
+      <div class="tool-panel">
+        <div id="dropZone" class="drop-zone" tabindex="0" role="button" aria-label="Choose or drop an image">
+          <strong>Drop an image here</strong>
+          <span>or click to choose a JPG, PNG, or WebP file</span>
+          <input id="imageUpload" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+        </div>
+
+        <div class="control-row">
+      <label class="field"><span>Output format</span>
+        <select id="outputFormat">
+          <option value="image/jpeg">JPG</option>
+          <option value="image/png">PNG</option>
+          <option value="image/webp">WebP</option>
+        </select>
+      </label>
+      <label class="field"><span>Quality (JPG / WebP)</span>
+        <input id="qualityRange" type="range" min="10" max="100" value="92">
+      </label>
+    </div>
+
+        <div class="button-row">
+          <button id="processBtn" class="btn primary" type="button" disabled>Process image</button>
+          <button id="downloadBtn" class="btn ghost" type="button" disabled>Download file</button>
+          <button id="clearBtn" class="btn text" type="button">Clear</button>
+        </div>
+
+        <p id="status" class="status" role="status" aria-live="polite">Choose an image to start. Processing happens in this browser.</p>
+        <p class="size-line">Original: <strong id="originalSize">—</strong> · Result: <strong id="resultSize">—</strong> <span id="saving" class="saving"></span></p>
+      </div>
+
+      <div class="preview-grid">
+        <article class="preview-card">
+          <h2>Original</h2>
+          <div class="canvas-frame"><canvas id="sourceCanvas" aria-label="Original image preview"></canvas></div>
+        </article>
+        <article class="preview-card">
+          <h2>Result</h2>
+          <div class="canvas-frame"><canvas id="resultCanvas" aria-label="Processed image preview"></canvas></div>
+        </article>
+      </div>
+    </section>
+
+    <noscript><p class="notice">JavaScript is required to process images in your browser.</p></noscript>
+
+    <aside class="ad-slot" data-slot="tool-after-editor" aria-label="Advertisement"><span>Advertisement</span></aside>
+
+    <section class="section">
+      <div class="section-heading"><p class="section-index">How it works</p><h2>Local by design</h2><p>The export is rebuilt from image pixels, so original metadata blocks are not carried over.</p></div>
+      <div class="steps horizontal">
+        <div><strong>01</strong><h3>Choose an image</h3><p>The browser reads the selected file into memory.</p></div>
+        <div><strong>02</strong><h3>Process locally</h3><p>Canvas handles the work on your device. No upload request is made.</p></div>
+        <div><strong>03</strong><h3>Save the result</h3><p>Download the new file straight from your browser.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading"><p class="section-index">FAQ</p><h2>Remove EXIF questions</h2></div>
+      <div class="faq-list">
+        <details class="faq-item" open>
+          <summary>What is EXIF data?</summary>
+          <p>EXIF is metadata stored inside image files. It can include camera model, timestamps, lens settings, and sometimes GPS coordinates.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does this remove every metadata field?</summary>
+          <p>The export is generated from decoded pixels, which strips the original metadata blocks. Open the result in a metadata viewer if you need to verify a specific field.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does removing EXIF change the picture?</summary>
+          <p>PNG output is lossless. If you choose JPG or WebP, the image is re-encoded at your chosen quality, so keep quality high for best results.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Why should I remove EXIF before sharing?</summary>
+          <p>Location and device details can reveal a home address, workplace, or routine when several photos are published together.</p>
+        </details></div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading"><p class="section-index">More tools</p><h2>Keep working locally</h2></div>
+      <div class="tool-grid">
+        
+          <a class="tool-card" href="/remove-background/">
+            <span class="tool-number">Remove BG</span>
+            <h3>AI Background Remover</h3>
+            <p>Cut out portraits locally</p>
+            <span class="tool-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="tool-card" href="/compress-image/">
+            <span class="tool-number">Compress</span>
+            <h3>Image Compressor</h3>
+            <p>Shrink files, keep quality</p>
+            <span class="tool-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="tool-card" href="/convert-image/">
+            <span class="tool-number">Convert</span>
+            <h3>Image Converter</h3>
+            <p>PNG, JPG and WebP in one place</p>
+            <span class="tool-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="tool-card" href="/resize-image/">
+            <span class="tool-number">Resize</span>
+            <h3>Image Resizer</h3>
+            <p>Fit any platform size</p>
+            <span class="tool-arrow" aria-hidden="true">→</span>
+          </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading"><p class="section-index">Related guides</p><h2>Learn more</h2></div>
+      <div class="card-grid">
+        <article class="card post-card">
+          <p class="card-meta">How-to · 2026-11-26</p>
+          <h3><a href="/blog/compress-images-without-uploading/">How to compress images without uploading them</a></h3>
+          <p>A practical guide to browser-based image compression: quality settings, format choices, and how to shrink files without a private photo leaving your device.</p>
+        </article>
+        <article class="card post-card">
+          <p class="card-meta">Formats · 2026-11-24</p>
+          <h3><a href="/blog/png-to-jpg-or-webp-which-format-to-choose/">PNG to JPG or WebP: which format should you choose?</a></h3>
+          <p>When to keep PNG, when to switch to JPG, and where WebP wins — plus how to convert images locally without uploading them.</p>
+        </article>
+        <article class="card post-card">
+          <p class="card-meta">Privacy · 2026-11-22</p>
+          <h3><a href="/blog/how-to-remove-exif-data-from-a-photo/">How to remove EXIF data from a photo</a></h3>
+          <p>What EXIF metadata contains, why it can be sensitive, and a local method for stripping it before you share an image.</p>
+        </article></div>
+    </section>
+  
+  </main>
+  
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          <a class="brand" href="/">Toolorial</a>
+          <p>Private, browser-native image tools.</p>
+        </div>
+        <nav aria-label="Footer">
+          <a href="/tools/">All tools</a>
+          <a href="/remove-background/">Remove BG</a>
+          <a href="/compress-image/">Compress</a>
+          <a href="/convert-image/">Convert</a>
+          <a href="/resize-image/">Resize</a>
+          <a href="/remove-exif/">Remove EXIF</a>
+          <a href="/docs/">Docs</a>
+          <a href="/blog/">Blog</a>
+          <a href="/faq/">FAQ</a>
+          <a href="/about/">About</a>
+          <a href="/contact/">Contact</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="/terms/">Terms</a>
+        </nav>
+      </div>
+      <p class="footer-note">Images are processed in your browser. Advertising may use cookies on content pages.</p>
+    </footer>
+  
+  <script src="/tools.js" defer></script>
+</body>
+</html>

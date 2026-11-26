@@ -3,12 +3,21 @@
 Private, browser-native image tools. Remove photo backgrounds locally without uploads, accounts, or server storage.
 
 - Homepage: https://tooloralab.xyz/
-- Background remover: https://tooloralab.xyz/remove-background/
+- All tools: https://tooloralab.xyz/tools/
+- AI Background Remover: https://tooloralab.xyz/remove-background/
+- Image Compressor: https://tooloralab.xyz/compress-image/
+- Image Converter: https://tooloralab.xyz/convert-image/
+- Image Resizer: https://tooloralab.xyz/resize-image/
+- EXIF Remover: https://tooloralab.xyz/remove-exif/
 - Privacy policy: https://tooloralab.xyz/privacy/
 - Docs: https://tooloralab.xyz/docs/
 
 ## Editorial guides
 
+- https://tooloralab.xyz/blog/compress-images-without-uploading/
+- https://tooloralab.xyz/blog/png-to-jpg-or-webp-which-format-to-choose/
+- https://tooloralab.xyz/blog/how-to-remove-exif-data-from-a-photo/
+- https://tooloralab.xyz/blog/image-size-presets-for-social-platforms/
 - https://tooloralab.xyz/blog/remove-background-without-uploading/
 - https://tooloralab.xyz/blog/browser-ai-vs-cloud-ai-image-editing/
 - https://tooloralab.xyz/blog/transparent-png-for-profile-photos/
