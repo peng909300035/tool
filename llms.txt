@@ -2,22 +2,22 @@
 
 Private, browser-native image tools. Remove photo backgrounds locally without uploads, accounts, or server storage.
 
-- Homepage: https://api.tooloralab.xyz/
-- Background remover: https://api.tooloralab.xyz/remove-background/
-- Privacy policy: https://api.tooloralab.xyz/privacy/
-- Docs: https://api.tooloralab.xyz/docs/
+- Homepage: https://tooloralab.xyz/
+- Background remover: https://tooloralab.xyz/remove-background/
+- Privacy policy: https://tooloralab.xyz/privacy/
+- Docs: https://tooloralab.xyz/docs/
 
 ## Editorial guides
 
-- https://api.tooloralab.xyz/blog/remove-background-without-uploading/
-- https://api.tooloralab.xyz/blog/browser-ai-vs-cloud-ai-image-editing/
-- https://api.tooloralab.xyz/blog/transparent-png-for-profile-photos/
-- https://api.tooloralab.xyz/blog/keep-hair-detail-when-removing-background/
-- https://api.tooloralab.xyz/blog/webp-vs-png-transparent-backgrounds/
-- https://api.tooloralab.xyz/blog/passport-photo-background-rules/
-- https://api.tooloralab.xyz/blog/image-metadata-exif-privacy/
-- https://api.tooloralab.xyz/blog/optimize-images-for-adsense-pagespeed/
-- https://api.tooloralab.xyz/blog/heic-to-png-in-browser/
-- https://api.tooloralab.xyz/blog/remove-background-for-profile-photos/
-- https://api.tooloralab.xyz/blog/offline-image-tools-with-service-worker/
-- https://api.tooloralab.xyz/blog/why-no-signup-image-tools/
+- https://tooloralab.xyz/blog/remove-background-without-uploading/
+- https://tooloralab.xyz/blog/browser-ai-vs-cloud-ai-image-editing/
+- https://tooloralab.xyz/blog/transparent-png-for-profile-photos/
+- https://tooloralab.xyz/blog/keep-hair-detail-when-removing-background/
+- https://tooloralab.xyz/blog/webp-vs-png-transparent-backgrounds/
+- https://tooloralab.xyz/blog/passport-photo-background-rules/
+- https://tooloralab.xyz/blog/image-metadata-exif-privacy/
+- https://tooloralab.xyz/blog/optimize-images-for-adsense-pagespeed/
+- https://tooloralab.xyz/blog/heic-to-png-in-browser/
+- https://tooloralab.xyz/blog/remove-background-for-profile-photos/
+- https://tooloralab.xyz/blog/offline-image-tools-with-service-worker/
+- https://tooloralab.xyz/blog/why-no-signup-image-tools/

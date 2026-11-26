@@ -1,6 +1,6 @@
 export const SITE = {
-  origin: "https://api.tooloralab.xyz",
-  domain: "api.tooloralab.xyz",
+  origin: "https://tooloralab.xyz",
+  domain: "tooloralab.xyz",
   name: "Toolorial",
   email: "hello@tooloralab.xyz",
   description:

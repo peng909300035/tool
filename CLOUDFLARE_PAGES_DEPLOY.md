@@ -133,7 +133,7 @@ html_handling = "auto-trailing-slash"
 
 ## 6. 绑定域名
 
-当前配置里的域名是 `api.tooloralab.xyz`，域名配置源在：
+当前配置里的域名是 `tooloralab.xyz`，域名配置源在：
 
 ```txt
 src/site/content.mjs
@@ -143,12 +143,12 @@ src/site/content.mjs
 
 绑定后检查：
 
-- `https://api.tooloralab.xyz/` 返回首页
-- `https://api.tooloralab.xyz/assets/sample-portrait.svg` 返回图片
-- `https://api.tooloralab.xyz/remove-background/` 返回工具页
-- `https://api.tooloralab.xyz/robots.txt` 可访问
-- `https://api.tooloralab.xyz/sitemap.xml` 可访问
-- `https://api.tooloralab.xyz/vendor/mediapipe/selfie_segmentation.tflite` 可访问
+- `https://tooloralab.xyz/` 返回首页
+- `https://tooloralab.xyz/assets/sample-portrait.svg` 返回图片
+- `https://tooloralab.xyz/remove-background/` 返回工具页
+- `https://tooloralab.xyz/robots.txt` 可访问
+- `https://tooloralab.xyz/sitemap.xml` 可访问
+- `https://tooloralab.xyz/vendor/mediapipe/selfie_segmentation.tflite` 可访问
 - `*.workers.dev` 返回 `X-Robots-Tag: noindex, nofollow`
 
 ## 7. AdSense 申请前必须替换
