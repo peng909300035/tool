@@ -282,21 +282,21 @@ export const ARTICLES = [
     slug: "compress-photo-to-100kb-for-a-form",
     title: "How to compress a photo to 100 KB for an online form",
     description:
-      "Forms often reject photos over 100 KB. Here's how to shrink a JPG to the right size locally, without sending the original to a website.",
+      "Forms often reject photos over 100 KB. Shrink a JPG to the right size locally, without sending the original to a website.",
     category: "How-to",
     date: "2026-11-27",
     body: `
-      <p>You've filled in the form, picked your photo, and then it happens: "file too large, maximum 100 KB." A phone photo is usually 2 to 5 MB, so you need to shrink it by a factor of twenty or more.</p>
+      <p>That "file too large, maximum 100 KB" message is frustrating because a phone photo is usually 2 to 5 MB. You need to shrink it by a factor of twenty or more, and there's no way around it.</p>
 
       <h2 id="why-limit">Why forms set a 100 KB limit</h2>
-      <p>Usually it's storage or email. Some systems attach your upload to a confirmation email, and big attachments bounce. Others cap the database field. Either way the limit is real, and you have to work within it.</p>
+      <p>Usually it's the email. A lot of systems attach your upload to a confirmation message, and large attachments get bounced by the recipient's mail server. Sometimes it's just a small database field. Whatever the reason, the number is hard and you have to work under it.</p>
 
       <h2 id="format-first">Use JPG for photos, not PNG</h2>
-      <p>This alone can save you 80 percent. A PNG of a photograph keeps every pixel and often lands at 8 MB. Save the same image as a JPG and you're down to 1 MB or less before you've touched the quality slider. PNG makes sense for logos and screenshots with flat colors. For anything shot on a camera, use JPG.</p>
+      <p>This alone can save you 80 percent. A photo saved as PNG keeps every pixel and often lands around 8 MB. Save the same shot as a JPG and you're at 1 MB or less before you've touched the quality slider. PNG is for logos and screenshots with flat colors; for anything from a camera, use JPG.</p>
 
       <h2 id="quality">The quality setting that works</h2>
-      <p>Start at 65. A typical 3 MB phone photo drops to roughly 150 to 250 KB at that setting, and often below 100 KB at 55. Below 50 you'll start to see blocky patches around edges. Since a form thumbnail is only displayed at a few hundred pixels wide, you probably won't notice.</p>
-      <p>One thing to watch: compressing a JPG that's already been compressed doesn't help much. Each pass throws away more detail. Work from the original if you still have it.</p>
+      <p>Start at 65. A typical 3 MB phone photo drops to roughly 150 to 250 KB there, and often below 100 KB at 55. Go under 50 and you'll start to see blocky patches around edges. A form thumbnail only displays a few hundred pixels wide, so most of that won't be visible anyway.</p>
+      <p>If you still have the original, work from that. Re-compressing a JPG that's already been squeezed doesn't do much, and every pass throws away more detail.</p>
 
       <h2 id="steps">Steps</h2>
       <ol>
@@ -307,80 +307,80 @@ export const ARTICLES = [
       </ol>
 
       <h2 id="limits">When this won't work</h2>
-      <p>If your photo has lots of small text, like a scanned document or a screenshot, JPG compression turns the letters fuzzy. Keep those as PNG and check whether the form accepts a different format. And if the form insists on 100 KB but also requires a specific pixel size, resize first, then compress. Doing it the other way round gives you a worse result.</p>
+      <p>Photos with a lot of small text — a scanned document or a screenshot — get fuzzy under JPG compression. Keep those as PNG and check whether the form accepts another format. If the form wants both 100 KB and a specific pixel size, resize first and compress second. The other order just costs you quality for no gain.</p>
     `,
   },
   {
     slug: "make-transparent-png-from-a-portrait",
     title: "How to make a transparent PNG from a portrait photo",
     description:
-      "A transparent PNG lets you drop a person onto any background. Here's how to cut out a portrait in your browser and export a clean alpha channel.",
+      "A transparent PNG lets you drop a person onto any background. Cut out a portrait in your browser and export a clean alpha channel.",
     category: "How-to",
     date: "2026-11-26",
     body: `
-      <p>JPG can't store transparency. If you want to put someone on a colored banner or a new backdrop, you need a PNG with an alpha channel. The usual route is to upload the photo to a background remover and hope the site doesn't keep a copy. There's a quieter way.</p>
+      <p>JPG can't store transparency. To put someone on a colored banner or a new backdrop you need a PNG with an alpha channel. Most background removers want you to upload the photo first, and then you're trusting them not to keep a copy of it. You can do the cutout on your own machine instead.</p>
 
       <h2 id="what-is-alpha">What the alpha channel actually does</h2>
-      <p>A PNG has a fourth channel alongside red, green and blue. It tells the viewer how opaque each pixel is. At zero the pixel is fully transparent, at 255 it's solid. Getting a clean cutout is really about getting that channel right around hair and shoulders.</p>
+      <p>A PNG has a fourth channel alongside red, green and blue that says how opaque each pixel is. Zero is fully transparent, 255 is solid. Getting a clean cutout mostly comes down to getting that channel right around hair and shoulders.</p>
 
       <h2 id="how-it-works-here">What happens in the browser</h2>
-      <p>Our <a href="/remove-background/">background remover</a> downloads a small segmentation model to your browser. When you pick a file, the page draws it on a canvas and the model returns a mask, which is just a map of which pixels belong to the person. The page combines that mask with the original pixels and hands you a PNG. The photo itself never goes up to a server.</p>
+      <p>Our <a href="/remove-background/">background remover</a> downloads a small segmentation model to your browser. Pick a file and the page draws it on a canvas, then the model returns a mask — a map of which pixels belong to the person. The page combines that mask with the original pixels and gives you a PNG. The photo itself never goes up to a server.</p>
 
       <h2 id="better-edges">Getting edges that don't look cut out</h2>
-      <p>Plain backgrounds help more than anything else. A wall or a flat-color studio backdrop gives the model a clear boundary to work with. Busy scenes with chairs, plants and shadows behind the head are where small models struggle.</p>
-      <p>Check the hairline and the shoulders at full size before you download. If the whole subject disappeared and the background stayed, tick the Invert mask box and run it again. That happens on some images and takes one click to fix.</p>
+      <p>Plain backgrounds help more than anything else. A flat wall or a studio backdrop gives the model a clear boundary to work with. It struggles when there's a chair or a shadow right behind the head.</p>
+      <p>Before you download, check the hairline and shoulders at full size. On some images the whole subject disappears and the background stays. If that happens, tick the Invert mask box and run it again — one click, sorted.</p>
 
       <h2 id="export">Export and check on two backgrounds</h2>
-      <p>Download the PNG and open it on a dark background, then a light one. Edges that look fine on white often show a faint halo on black. If you see one, the original photo probably had a light-colored wall behind it that bled into the edge pixels.</p>
+      <p>Download the PNG and open it once on a dark background, once on a light one. Edges that look fine on white often show a faint halo on black. Usually that means the original had a light-colored wall behind the subject, and a little of it bled into the edge pixels.</p>
 
       <h2 id="limits">Where it falls short</h2>
-      <p>This is a portrait tool. It handles headshots, avatars and profile photos well. It isn't built for products, pets or group shots with overlapping people, and thin translucent things like sheer fabric tend to get clipped. For those cases a manual selection in an editor is still faster than fighting the model.</p>
+      <p>It's a portrait tool, made for headshots and profile photos. Products and pets aren't really its job, and overlapping people in a group shot confuse it. Thin, see-through fabric tends to get clipped too. When you hit one of those, a manual selection in an editor is faster than fighting the model.</p>
     `,
   },
   {
     slug: "why-is-my-png-bigger-than-my-jpg",
     title: "Why is my PNG bigger than my JPG?",
     description:
-      "The same photo can be ten times larger as a PNG. Here's what causes the difference and how to choose a format without losing what you need.",
+      "The same photo can be ten times larger as a PNG. What causes the difference, and how to choose a format without losing what you need.",
     category: "Formats",
     date: "2026-11-25",
     body: `
-      <p>Save a photo as PNG, then as JPG, and compare the file sizes. The PNG might be 8 MB while the JPG is 700 KB. Nothing changed in the image you see. So where did the weight go?</p>
+      <p>Save the same photo as a PNG and as a JPG, then compare the file sizes. The PNG might be 8 MB while the JPG is 700 KB. The image looks identical, so where did all that weight come from?</p>
 
       <h2 id="lossless">PNG keeps everything</h2>
-      <p>PNG is lossless. Every pixel is stored exactly, and gradients are described in full. A photo has millions of slightly different colors, and PNG has to account for all of them. That's why it works beautifully for a logo with three flat colors and terribly for a landscape.</p>
+      <p>PNG is lossless: every pixel is stored exactly, gradients and all. A photo has millions of slightly different colors and PNG accounts for every one of them. That works great for a logo with three flat colors, and badly for a landscape.</p>
 
       <h2 id="lossy">JPG throws some of it away</h2>
-      <p>JPG groups nearby pixels and discards detail the eye is unlikely to notice. At quality 80 most people can't tell the difference at normal viewing size. The files are dramatically smaller because the data simply isn't there anymore.</p>
+      <p>JPG groups nearby pixels and discards detail the eye is unlikely to notice. At quality 80 most people can't tell the difference at normal viewing size. The file is smaller because a lot of that data is simply gone, not because it was packed better.</p>
 
       <h2 id="web-middle">WebP sits in the middle</h2>
-      <p>WebP supports both lossy compression and transparency, and it's usually smaller than the equivalent JPG or PNG. Every modern browser reads it. The catch is older software and some upload forms that still only accept JPG or PNG.</p>
+      <p>WebP supports lossy compression and transparency, and is usually smaller than the equivalent JPG or PNG. Every modern browser reads it. The only snag is older software and the odd upload form that still only takes JPG or PNG.</p>
 
       <h2 id="convert">Converting locally</h2>
-      <p>You don't need to upload the photo to change its format. Our <a href="/convert-image/">image converter</a> reads the file, draws it on a canvas and exports it in the format you pick. As a side effect the original metadata is dropped, which is usually what you want before sharing.</p>
+      <p>You don't need to upload the photo to change its format. Our <a href="/convert-image/">image converter</a> reads the file, draws it on a canvas and exports it in the format you pick. The original metadata gets dropped along the way, which is usually what you want before sharing anyway.</p>
 
       <h2 id="mistake">A mistake worth avoiding</h2>
-      <p>People often save a photo as PNG because they think it's the higher quality format. Then they can't upload it anywhere because it's 12 MB. Keep one PNG master if you need to edit it later, but publish a JPG or WebP copy. And if you convert a JPG to PNG, don't expect it to get sharper. The detail was already gone.</p>
+      <p>People save a photo as PNG because it sounds like the higher quality format, then wonder why a 12 MB file won't upload anywhere. Keep a PNG master if you plan to edit it later, but publish a JPG or WebP copy. Converting a JPG to PNG won't make it sharper, either — the detail was gone the moment it became a JPG.</p>
 
       <h2 id="exceptions">When PNG is still the right call</h2>
-      <p>Screenshots with text, icons, diagrams, anything with hard edges or transparency. For those, the larger file is a fair trade. The rule is simple: photographs get JPG or WebP, graphics get PNG.</p>
+      <p>Screenshots with text, icons, diagrams, anything with hard edges or real transparency. For those the larger file is a fair trade. Photos go out as JPG or WebP; graphics stay PNG.</p>
     `,
   },
   {
     slug: "resize-photo-to-500x500-for-an-avatar",
     title: "How to resize a photo to 500×500 px for an avatar",
     description:
-      "A 500×500 square works on most profile pages. Here's how to crop and resize a photo locally instead of uploading it to a random site.",
+      "A 500×500 square works on most profile pages. Crop and resize a photo locally instead of uploading it to a random site.",
     category: "Guides",
     date: "2026-11-24",
     body: `
-      <p>Profile picture fields are oddly inconsistent. Some want 400 pixels, some want 512, and almost all of them crop to a circle in the end. A 500×500 square is a safe choice that looks sharp everywhere without being a huge file.</p>
+      <p>Profile picture fields can't seem to agree on a size. One wants 400 pixels, another wants 512, and nearly all of them crop to a circle anyway. A 500×500 square covers those without turning into a huge file.</p>
 
       <h2 id="crop-first">Crop before you resize</h2>
-      <p>This is the part people skip. If your photo is 4000×3000 and you shrink the whole thing to 500 pixels wide, the person ends up small in the middle with a lot of background around them. Crop to a square around the face first, then scale. Most of the time you want the eyes in the upper third of the frame.</p>
+      <p>This is the part people skip. Shrink a 4000×3000 photo straight down to 500 pixels wide and the person ends up small in the middle with a lot of background around them. Crop to a square around the face first, then scale. You usually want the eyes in the upper third of the frame.</p>
 
       <h2 id="ratio">Keep the ratio unless the site demands otherwise</h2>
-      <p>Fill only the width in a resizer and the height follows the original proportion. That avoids stretching. Type both numbers only when the destination has a hard requirement, and expect to trim the edges a little.</p>
+      <p>Fill in only the width and the height follows the original proportion, so nothing gets stretched. Type both numbers only when the destination has a hard requirement, and expect to trim a little off the edges.</p>
 
       <h2 id="steps">Steps</h2>
       <ol>
@@ -391,10 +391,10 @@ export const ARTICLES = [
       </ol>
 
       <h2 id="no-upscale">Don't expect upscaling to help</h2>
-      <p>If your original is 150×150, making it 500×500 just spreads the same pixels over a bigger area. Nothing sharper appears. You can smooth the result a little, but the detail isn't there to recover. Start from the largest original you have.</p>
+      <p>If your original is 150×150, making it 500×500 just spreads the same pixels over a bigger area. Nothing gets sharper. Smoothing helps a little, but you can't recover detail that was never captured. Start from the largest original you have.</p>
 
       <h2 id="size-check">Check the file size too</h2>
-      <p>Dimensions and file size are different things. A 500×500 PNG can still be a couple of megabytes if the photo is noisy. If the profile page has an upload limit, export as JPG at quality 80 and compare. Usually that brings it under 100 KB with no visible difference at avatar size.</p>
+      <p>Dimensions and file size aren't the same thing. A 500×500 PNG can still be a couple of megabytes if the photo is noisy. If the profile page has an upload limit, export as JPG at quality 80 and compare. That usually lands under 100 KB, and at avatar size you won't see the difference.</p>
     `,
   },
   {

@@ -4,24 +4,24 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>How to make a transparent PNG from a portrait photo | Toolorial</title>
-  <meta name="description" content="A transparent PNG lets you drop a person onto any background. Here&#39;s how to cut out a portrait in your browser and export a clean alpha channel.">
+  <meta name="description" content="A transparent PNG lets you drop a person onto any background. Cut out a portrait in your browser and export a clean alpha channel.">
   <meta name="theme-color" content="#f6f8fc">
   <link rel="canonical" href="https://tooloralab.xyz/blog/make-transparent-png-from-a-portrait/">
   
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Toolorial">
   <meta property="og:title" content="How to make a transparent PNG from a portrait photo | Toolorial">
-  <meta property="og:description" content="A transparent PNG lets you drop a person onto any background. Here&#39;s how to cut out a portrait in your browser and export a clean alpha channel.">
+  <meta property="og:description" content="A transparent PNG lets you drop a person onto any background. Cut out a portrait in your browser and export a clean alpha channel.">
   <meta property="og:url" content="https://tooloralab.xyz/blog/make-transparent-png-from-a-portrait/">
   <meta property="og:image" content="https://tooloralab.xyz/assets/og-cover.svg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="How to make a transparent PNG from a portrait photo | Toolorial">
-  <meta name="twitter:description" content="A transparent PNG lets you drop a person onto any background. Here&#39;s how to cut out a portrait in your browser and export a clean alpha channel.">
+  <meta name="twitter:description" content="A transparent PNG lets you drop a person onto any background. Cut out a portrait in your browser and export a clean alpha channel.">
   <meta name="twitter:image" content="https://tooloralab.xyz/assets/og-cover.svg">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="/manifest.json">
   <link rel="stylesheet" href="/styles.css">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to make a transparent PNG from a portrait photo","description":"A transparent PNG lets you drop a person onto any background. Here's how to cut out a portrait in your browser and export a clean alpha channel.","datePublished":"2026-11-26","dateModified":"2026-11-26","inLanguage":"en","author":{"@type":"Organization","name":"Toolorial"},"publisher":{"@type":"Organization","name":"Toolorial"},"mainEntityOfPage":"https://tooloralab.xyz/blog/make-transparent-png-from-a-portrait/"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to make a transparent PNG from a portrait photo","description":"A transparent PNG lets you drop a person onto any background. Cut out a portrait in your browser and export a clean alpha channel.","datePublished":"2026-11-26","dateModified":"2026-11-26","inLanguage":"en","author":{"@type":"Organization","name":"Toolorial"},"publisher":{"@type":"Organization","name":"Toolorial"},"mainEntityOfPage":"https://tooloralab.xyz/blog/make-transparent-png-from-a-portrait/"}</script>
 </head>
 <body class="">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -38,27 +38,27 @@
       <header class="article-header">
         <p class="card-meta">How-to · <time datetime="2026-11-26">2026-11-26</time></p>
         <h1>How to make a transparent PNG from a portrait photo</h1>
-        <p class="lead">A transparent PNG lets you drop a person onto any background. Here&#39;s how to cut out a portrait in your browser and export a clean alpha channel.</p>
+        <p class="lead">A transparent PNG lets you drop a person onto any background. Cut out a portrait in your browser and export a clean alpha channel.</p>
       </header>
       <aside class="ad-slot" data-slot="article-top" aria-label="Advertisement"><span>Advertisement</span></aside>
       <div class="prose article-body">
-      <p>JPG can't store transparency. If you want to put someone on a colored banner or a new backdrop, you need a PNG with an alpha channel. The usual route is to upload the photo to a background remover and hope the site doesn't keep a copy. There's a quieter way.</p>
+      <p>JPG can't store transparency. To put someone on a colored banner or a new backdrop you need a PNG with an alpha channel. Most background removers want you to upload the photo first, and then you're trusting them not to keep a copy of it. You can do the cutout on your own machine instead.</p>
 
       <h2 id="what-is-alpha">What the alpha channel actually does</h2>
-      <p>A PNG has a fourth channel alongside red, green and blue. It tells the viewer how opaque each pixel is. At zero the pixel is fully transparent, at 255 it's solid. Getting a clean cutout is really about getting that channel right around hair and shoulders.</p>
+      <p>A PNG has a fourth channel alongside red, green and blue that says how opaque each pixel is. Zero is fully transparent, 255 is solid. Getting a clean cutout mostly comes down to getting that channel right around hair and shoulders.</p>
 
       <h2 id="how-it-works-here">What happens in the browser</h2>
-      <p>Our <a href="/remove-background/">background remover</a> downloads a small segmentation model to your browser. When you pick a file, the page draws it on a canvas and the model returns a mask, which is just a map of which pixels belong to the person. The page combines that mask with the original pixels and hands you a PNG. The photo itself never goes up to a server.</p>
+      <p>Our <a href="/remove-background/">background remover</a> downloads a small segmentation model to your browser. Pick a file and the page draws it on a canvas, then the model returns a mask — a map of which pixels belong to the person. The page combines that mask with the original pixels and gives you a PNG. The photo itself never goes up to a server.</p>
 
       <h2 id="better-edges">Getting edges that don't look cut out</h2>
-      <p>Plain backgrounds help more than anything else. A wall or a flat-color studio backdrop gives the model a clear boundary to work with. Busy scenes with chairs, plants and shadows behind the head are where small models struggle.</p>
-      <p>Check the hairline and the shoulders at full size before you download. If the whole subject disappeared and the background stayed, tick the Invert mask box and run it again. That happens on some images and takes one click to fix.</p>
+      <p>Plain backgrounds help more than anything else. A flat wall or a studio backdrop gives the model a clear boundary to work with. It struggles when there's a chair or a shadow right behind the head.</p>
+      <p>Before you download, check the hairline and shoulders at full size. On some images the whole subject disappears and the background stays. If that happens, tick the Invert mask box and run it again — one click, sorted.</p>
 
       <h2 id="export">Export and check on two backgrounds</h2>
-      <p>Download the PNG and open it on a dark background, then a light one. Edges that look fine on white often show a faint halo on black. If you see one, the original photo probably had a light-colored wall behind it that bled into the edge pixels.</p>
+      <p>Download the PNG and open it once on a dark background, once on a light one. Edges that look fine on white often show a faint halo on black. Usually that means the original had a light-colored wall behind the subject, and a little of it bled into the edge pixels.</p>
 
       <h2 id="limits">Where it falls short</h2>
-      <p>This is a portrait tool. It handles headshots, avatars and profile photos well. It isn't built for products, pets or group shots with overlapping people, and thin translucent things like sheer fabric tend to get clipped. For those cases a manual selection in an editor is still faster than fighting the model.</p>
+      <p>It's a portrait tool, made for headshots and profile photos. Products and pets aren't really its job, and overlapping people in a group shot confuse it. Thin, see-through fabric tends to get clipped too. When you hit one of those, a manual selection in an editor is faster than fighting the model.</p>
     </div>
       <aside class="ad-slot" data-slot="article-mid" aria-label="Advertisement"><span>Advertisement</span></aside>
       <div class="article-cta">
@@ -73,17 +73,17 @@
         <article class="card post-card">
           <p class="card-meta">How-to · 2026-11-27</p>
           <h3><a href="/blog/compress-photo-to-100kb-for-a-form/">How to compress a photo to 100 KB for an online form</a></h3>
-          <p>Forms often reject photos over 100 KB. Here&#39;s how to shrink a JPG to the right size locally, without sending the original to a website.</p>
+          <p>Forms often reject photos over 100 KB. Shrink a JPG to the right size locally, without sending the original to a website.</p>
         </article>
         <article class="card post-card">
           <p class="card-meta">Formats · 2026-11-25</p>
           <h3><a href="/blog/why-is-my-png-bigger-than-my-jpg/">Why is my PNG bigger than my JPG?</a></h3>
-          <p>The same photo can be ten times larger as a PNG. Here&#39;s what causes the difference and how to choose a format without losing what you need.</p>
+          <p>The same photo can be ten times larger as a PNG. What causes the difference, and how to choose a format without losing what you need.</p>
         </article>
         <article class="card post-card">
           <p class="card-meta">Guides · 2026-11-24</p>
           <h3><a href="/blog/resize-photo-to-500x500-for-an-avatar/">How to resize a photo to 500×500 px for an avatar</a></h3>
-          <p>A 500×500 square works on most profile pages. Here&#39;s how to crop and resize a photo locally instead of uploading it to a random site.</p>
+          <p>A 500×500 square works on most profile pages. Crop and resize a photo locally instead of uploading it to a random site.</p>
         </article></div>
     </section>
   
