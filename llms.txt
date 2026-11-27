@@ -14,6 +14,10 @@ Private, browser-native image tools. Remove photo backgrounds locally without up
 
 ## Editorial guides
 
+- https://tooloralab.xyz/blog/compress-photo-to-100kb-for-a-form/
+- https://tooloralab.xyz/blog/make-transparent-png-from-a-portrait/
+- https://tooloralab.xyz/blog/why-is-my-png-bigger-than-my-jpg/
+- https://tooloralab.xyz/blog/resize-photo-to-500x500-for-an-avatar/
 - https://tooloralab.xyz/blog/compress-images-without-uploading/
 - https://tooloralab.xyz/blog/png-to-jpg-or-webp-which-format-to-choose/
 - https://tooloralab.xyz/blog/how-to-remove-exif-data-from-a-photo/
